@@ -2,61 +2,42 @@ import os
 import json
 import datetime
 import requests
-import time
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, render_template
 from langchain.chat_models import ChatOpenAI
 from langchain.agents import AgentType, initialize_agent, Tool
 from rich.console import Console
-from rich.progress import Progress, SpinnerColumn, TextColumn
 
 load_dotenv()
 
 console = Console()
 app = Flask(__name__, template_folder="templates")
 
+# Konfiguracja AI
 llm = ChatOpenAI(model_name="gpt-4", openai_api_key=os.getenv("OPENAI_API_KEY"))
 
-VEHICLES = {
-    "bus": {"width": 240, "height": 260, "length": 450},
-    "solowka": {"width": 240, "height": 260, "length": 730},
-    "naczepa": {"width": 240, "height": 260, "length": 1360},
-    "ponadgabaryt": {"width": float('inf'), "height": float('inf'), "length": float('inf')}
-}
+# Stałe parametry dla naczepy
+VEHICLE_TYPE = "naczepa"
+VEHICLE_WIDTH = 240
+VEHICLE_HEIGHT = 260
+VEHICLE_LENGTH = 1360
 
-def get_current_datetime():
-    return datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-def geocode_address(address: str):
-    url = "https://nominatim.openstreetmap.org/search"
-    params = {"q": address, "format": "json", "limit": 1}
-    headers = {"User-Agent": "TransportApp/1.0"}
-    response = requests.get(url, params=params, headers=headers)
-    data = response.json()
-    return (None, None) if not data else (float(data[0]["lat"]), float(data[0]["lon"]))
-
-def get_osrm_distance(lat1, lon1, lat2, lon2):
-    url = f"https://router.project-osrm.org/route/v1/driving/{lon1},{lat1};{lon2},{lat2}"
+def estimate_distance(postal_code_from, postal_code_to):
+    """Oblicza odległość w km między dwoma kodami pocztowymi"""
+    url = f"https://router.project-osrm.org/route/v1/driving/{postal_code_from};{postal_code_to}"
     headers = {"User-Agent": "TransportApp/1.0"}
     response = requests.get(url, headers=headers)
     data = response.json()
-    return data["routes"][0]["distance"] / 1000.0 if "routes" in data and data["routes"] else -1.0
+    return round(data["routes"][0]["distance"] / 1000.0, 2) if "routes" in data and data["routes"] else -1.0
 
-def estimate_distance(postal_code_from, postal_code_to):
-    lat1, lon1 = geocode_address(postal_code_from)
-    lat2, lon2 = geocode_address(postal_code_to)
-    return None if None in (lat1, lon1, lat2, lon2) else get_osrm_distance(lat1, lon1, lat2, lon2)
-
-def validate_cargo_dimensions(loads):
-    for load in loads:
-        if load["height"] > VEHICLES["naczepa"]["height"]:
-            return {"error": "Ładunek jest za wysoki dla dostępnych pojazdów."}
-        if load["width"] > VEHICLES["naczepa"]["width"] and load["length"] > VEHICLES["naczepa"]["width"]:
-            return {"error": "Ładunek wymaga transportu ponadgabarytowego."}
-    return None
+def format_date(days_offset):
+    """Konwertuje przesunięcie dni na format DD.MM.RRRR"""
+    date = datetime.datetime.now() + datetime.timedelta(days=int(days_offset))
+    return date.strftime("%d.%m.%Y")
 
 def calculate_ldm(loads):
-    remaining_width = VEHICLES["naczepa"]["width"]
+    """Oblicza metry ładunkowe (LDM)"""
+    remaining_width = VEHICLE_WIDTH
     total_ldm = 0.0
 
     sorted_loads = sorted(loads, key=lambda x: max(x["width"], x["length"]), reverse=True)
@@ -64,7 +45,7 @@ def calculate_ldm(loads):
     for load in sorted_loads:
         width, length = load["width"], load["length"]
 
-        if width > VEHICLES["naczepa"]["width"] or length > VEHICLES["naczepa"]["width"]:
+        if width > VEHICLE_WIDTH or length > VEHICLE_WIDTH:
             total_ldm += length / 100.0
             remaining_width -= width
             continue
@@ -72,8 +53,8 @@ def calculate_ldm(loads):
         if width > length:
             width, length = length, width
 
-        num_fit_by_width = VEHICLES["naczepa"]["width"] // width
-        num_fit_by_length = VEHICLES["naczepa"]["width"] // length
+        num_fit_by_width = VEHICLE_WIDTH // width
+        num_fit_by_length = VEHICLE_WIDTH // length
 
         if num_fit_by_width > num_fit_by_length:
             ldm_per_row = length / 100.0
@@ -91,20 +72,10 @@ def calculate_ldm(loads):
 
     return round(total_ldm, 2)
 
-
-def determine_vehicle(ldm):
-    if ldm <= VEHICLES["bus"]["length"] / 100:
-        return "bus"
-    elif ldm <= VEHICLES["solowka"]["length"] / 100:
-        return "solowka"
-    elif ldm <= VEHICLES["naczepa"]["length"] / 100:
-        return "naczepa"
-    return "ponadgabaryt"
-
 distance_tool = Tool(
     name="distance_tool",
     func=lambda x: estimate_distance(*x.split("->")) if "->" in x else None,
-    description="Oblicza odległość między dwoma kodami pocztowymi w formacie '12345->67890'",
+    description="Oblicza odległość między dwoma kodami pocztowymi w formacie '12345->67890'."
 )
 
 ldm_tool = Tool(
@@ -123,26 +94,9 @@ json_extraction_tool = Tool(
         "delivery_date": "",
         "pickup_days": "",
         "delivery_days": "",
-        "vehicle_type": ""
     }),
     description="Generuje pusty szablon JSON do uzupełnienia danymi transportowymi."
 )
-
-def extract_transport_details(user_input):
-    agent = initialize_agent(
-        tools=[distance_tool, ldm_tool, json_extraction_tool],
-        llm=llm,
-        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
-        verbose=True
-    )
-
-    with Progress(SpinnerColumn(), TextColumn("[bold blue]Agent analizuje zapytanie..."), transient=True) as progress:
-        task = progress.add_task("", total=None)
-        response = agent.run(f"Analizuj to zapytanie i zwróć dane w formacie JSON: {user_input}")
-        progress.update(task, completed=100)
-
-    console.log(f"[green]Agent zwrócił wynik:[/green] {response}")
-    return response
 
 @app.route('/')
 def index():
@@ -153,34 +107,32 @@ def process():
     user_query = request.json.get("query")
 
     console.log("[yellow]Rozpoczynam przetwarzanie zapytania...[/yellow]")
+
+    agent = initialize_agent(
+        tools=[distance_tool, ldm_tool, json_extraction_tool],
+        llm=llm,
+        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+        verbose=True
+    )
     
-    response = extract_transport_details(user_query)
+    response = agent.run(f"Analizuj to zapytanie i zwróć dane w formacie JSON: {user_query}")
     data = json.loads(response) if response else None
 
     if not data:
         console.log("[red]Błąd: Nie udało się przetworzyć zapytania.[/red]")
         return jsonify({"error": "Nie udało się przetworzyć zapytania."}), 400
 
-    validation_error = validate_cargo_dimensions(data["loads"])
-    if validation_error:
-        console.log(f"[red]Błąd walidacji:[/red] {validation_error['error']}")
-        return jsonify(validation_error), 400
+    data["distance_km"] = estimate_distance(data["pickup_postal_code"], data["delivery_postal_code"])
+    data["ldm"] = calculate_ldm(data["loads"])
 
-    with Progress(SpinnerColumn(), TextColumn("[bold green]Obliczanie odległości..."), transient=True) as progress:
-        task = progress.add_task("", total=None)
-        data['distance_km'] = estimate_distance(data['pickup_postal_code'], data['delivery_postal_code'])
-        progress.update(task, completed=100)
+    # Formatowanie dat
+    data["pickup_date"] = format_date(data.get("pickup_days", 0))
+    data["delivery_date"] = format_date(data.get("delivery_days", 1))  # Domyślnie dzień później
 
-    with Progress(SpinnerColumn(), TextColumn("[bold green]Obliczanie LDM..."), transient=True) as progress:
-        task = progress.add_task("", total=None)
-        data["ldm"] = calculate_ldm(data["loads"])
-        progress.update(task, completed=100)
-
-    data["vehicle_type"] = determine_vehicle(data["ldm"])
-
-    console.log(f"[cyan]Gotowy wynik:[/cyan] {json.dumps(data, indent=4)}")
+    # Stałe wartości (pojazd zawsze naczepa)
+    data["vehicle_type"] = VEHICLE_TYPE
 
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, threaded=True)
