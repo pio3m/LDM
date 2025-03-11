@@ -1,7 +1,5 @@
 import os
 import json
-import datetime
-import requests
 from dotenv import load_dotenv
 from flask import Flask, request, jsonify, render_template
 from langchain.chat_models import ChatOpenAI
@@ -24,13 +22,6 @@ VEHICLE_WIDTH = 240
 VEHICLE_HEIGHT = 260
 VEHICLE_LENGTH = 1360
 
-def estimate_distance(postal_code_from, postal_code_to):
-    """Oblicza odległość w km między dwoma kodami pocztowymi"""
-    url = f"https://router.project-osrm.org/route/v1/driving/{postal_code_from};{postal_code_to}"
-    headers = {"User-Agent": "TransportApp/1.0"}
-    response = requests.get(url, headers=headers)
-    data = response.json()
-    return round(data["routes"][0]["distance"] / 1000.0, 2) if "routes" in data and data["routes"] else -1.0
 
 distance_tool = Tool(
     name="distance_tool",
