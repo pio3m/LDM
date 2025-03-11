@@ -26,20 +26,20 @@ VEHICLE_LENGTH = 1360
 def calculate_ldm(loads):
     """
     Oblicza zajętą długość pojazdu (LDM) na podstawie podanych ładunków.
-    
-    :param loads: Lista krotek zawierających (długość, szerokość, ilość) dla każdego ładunku.
-    :param vehicle_width: Szerokość pojazdu w cm (domyślnie 240 cm).
+    :param loads: Lista słowników zawierających 'length', 'width' i 'quantity'.
     :return: Całkowita wartość LDM.
     """
     total_ldm = 0
     remaining_width = VEHICLE_WIDTH
-
-    # Przetwarzanie ładunków
     regular_loads = []
 
-    for length, width, quantity in loads:
+    for load in loads:
+        length = load.get('length', 0)
+        width = load.get('width', 0)
+        quantity = load.get('quantity', 1)
+        
         if max(length, width) > VEHICLE_WIDTH:
-            # Jeśli ładunek jest dłuższy niż szerokość pojazdu, musi być ułożony wzdłuż
+            # Jeśli ładunek jest szerszy niż pojazd, musi być ułożony wzdłuż
             total_ldm += (max(length, width) / 100) * quantity
             remaining_width -= min(length, width)
         else:
@@ -48,19 +48,19 @@ def calculate_ldm(loads):
     while regular_loads:
         length, width, quantity = regular_loads.pop(0)
         
-        # Ile razy długość lub szerokość zmieści się w szerokości pojazdu?
-        fit_by_length = VEHICLE_WIDTH // length
-        fit_by_width = VEHICLE_WIDTH // width
+        # Sprawdzenie, ile razy długość lub szerokość zmieści się w szerokości pojazdu
+        fit_by_length = VEHICLE_WIDTH // length if length > 0 else 1
+        fit_by_width = VEHICLE_WIDTH // width if width > 0 else 1
 
         # Wybieramy sposób układania, który pozwala zmieścić więcej jednostek
         if fit_by_length > fit_by_width:
             units_per_row = fit_by_length
-            ldm_value = width / 100  # LDM to drugi wymiar
+            ldm_value = width / 100  # LDM to szerokość ładunku
         else:
             units_per_row = fit_by_width
-            ldm_value = length / 100  # LDM to drugi wymiar
+            ldm_value = length / 100  # LDM to długość ładunku
 
-        # Obliczamy ile rzędów możemy ułożyć
+        # Obliczamy pełne rzędy
         full_rows = quantity // units_per_row
         remaining_units = quantity % units_per_row
 
@@ -109,7 +109,7 @@ ldm_tool = Tool(
 json_extraction_tool = Tool(
     name="json_extraction_tool",
     func=lambda x: json.dumps({
-        "loads": [{"quantity": 0, "height": 0, "width": 0, "length": 0}],
+        "loads": [{"quantity": 0, "width": 0, "length": 0}],
         "pickup_postal_code": "",
         "delivery_postal_code": "",
         "pickup_date": "",
@@ -145,6 +145,7 @@ def process():
         return jsonify({"error": "Nie udało się przetworzyć zapytania."}), 400
 
     data["distance_km"] = estimate_distance(data["pickup_postal_code"], data["delivery_postal_code"])
+    
     data["ldm"] = calculate_ldm(data["loads"])
 
     # Formatowanie dat
