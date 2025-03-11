@@ -7,9 +7,10 @@ from langchain.agents import AgentType, initialize_agent, Tool
 from rich.console import Console
 from calculateDate import calculate_date
 from calculateLDM import calculate_ldm
+from estimateDistance import distance_tool
+from datetime import datetime
 
 load_dotenv()
-
 console = Console()
 app = Flask(__name__, template_folder="templates")
 
@@ -25,8 +26,12 @@ VEHICLE_LENGTH = 1360
 
 distance_tool = Tool(
     name="distance_tool",
-    func=lambda x: estimate_distance(*x.split("->")) if "->" in x else None,
-    description="Oblicza odległość między dwoma kodami pocztowymi w formacie '12345->67890'."
+    func=distance_tool,
+    description=(
+        "Oblicza odległość w km między dwoma lokalizacjami, "
+        "podanymi w formacie 'MiastoA->MiastoB'."
+        "Zwraca opis a w nim odległość w kilometrach"
+    )
 )
 
 ldm_tool = Tool(
@@ -57,8 +62,9 @@ def index():
 @app.route('/process', methods=['POST'])
 def process():
     user_query = request.json.get("query")
+    today_date = datetime.now().strftime("%d.%m.%Y")  # Pobierz dzisiejszą datę
 
-    console.log("[yellow]Rozpoczynam przetwarzanie zapytania...[/yellow]")
+    console.log(f"[yellow]Rozpoczynam przetwarzanie zapytania... Dzisiejsza data: {today_date}[/yellow]")
 
     agent = initialize_agent(
         tools=[distance_tool, ldm_tool, json_extraction_tool],
@@ -66,8 +72,10 @@ def process():
         agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
         verbose=True
     )
-    
-    response = agent.run(f"Analizuj to zapytanie i zwróć dane w formacie JSON: {user_query}")
+ 
+ 
+    response = agent.run(f"Dzisiejsza data to {today_date}. Analizuj to zapytanie i zwróć dane w formacie JSON: {user_query}")
+   
     data = json.loads(response) if response else None
     
     console.log(json.dumps(data, indent=4, ensure_ascii=False))
@@ -76,13 +84,11 @@ def process():
         console.log("[red]Błąd: Nie udało się przetworzyć zapytania.[/red]")
         return jsonify({"error": "Nie udało się przetworzyć zapytania."}), 400
 
-    data["distance_km"] = estimate_distance(data["pickup_postal_code"], data["delivery_postal_code"])
-    
     data["ldm"] = calculate_ldm(data["loads"])
 
     # Formatowanie dat
     data["pickup_date"] = calculate_date(data["pickup_days"])
-    data["delivery_date"] = calculate_date(data.get("delivery_days", 1))  # Domyślnie dzień później
+    data["delivery_date"] = calculate_date(data["delivery_days"])  # Domyślnie dzień później
 
     # Stałe wartości (pojazd zawsze naczepa)
     data["vehicle_type"] = VEHICLE_TYPE
