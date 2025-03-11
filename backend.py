@@ -7,7 +7,8 @@ from flask import Flask, request, jsonify, render_template
 from langchain.chat_models import ChatOpenAI
 from langchain.agents import AgentType, initialize_agent, Tool
 from rich.console import Console
-from datetime import datetime, timedelta
+from calculateDate import calculate_date
+from calculateLDM import calculate_ldm
 
 load_dotenv()
 
@@ -23,59 +24,6 @@ VEHICLE_WIDTH = 240
 VEHICLE_HEIGHT = 260
 VEHICLE_LENGTH = 1360
 
-def calculate_ldm(loads):
-    """
-    Oblicza zajętą długość pojazdu (LDM) na podstawie podanych ładunków.
-    :param loads: Lista słowników zawierających 'length', 'width' i 'quantity'.
-    :return: Całkowita wartość LDM.
-    """
-    total_ldm = 0
-    remaining_width = VEHICLE_WIDTH
-    regular_loads = []
-
-    for load in loads:
-        length = load.get('length', 0)
-        width = load.get('width', 0)
-        quantity = load.get('quantity', 1)
-        
-        if max(length, width) > VEHICLE_WIDTH:
-            # Jeśli ładunek jest szerszy niż pojazd, musi być ułożony wzdłuż
-            total_ldm += (max(length, width) / 100) * quantity
-            remaining_width -= min(length, width)
-        else:
-            regular_loads.append((length, width, quantity))
-
-    while regular_loads:
-        length, width, quantity = regular_loads.pop(0)
-        
-        # Sprawdzenie, ile razy długość lub szerokość zmieści się w szerokości pojazdu
-        fit_by_length = VEHICLE_WIDTH // length if length > 0 else 1
-        fit_by_width = VEHICLE_WIDTH // width if width > 0 else 1
-
-        # Wybieramy sposób układania, który pozwala zmieścić więcej jednostek
-        if fit_by_length > fit_by_width:
-            units_per_row = fit_by_length
-            ldm_value = width / 100  # LDM to szerokość ładunku
-        else:
-            units_per_row = fit_by_width
-            ldm_value = length / 100  # LDM to długość ładunku
-
-        # Obliczamy pełne rzędy
-        full_rows = quantity // units_per_row
-        remaining_units = quantity % units_per_row
-
-        total_ldm += full_rows * ldm_value
-
-        # Jeśli pozostały nierówne jednostki, próbujemy je dopasować
-        if remaining_units > 0:
-            if remaining_units * max(length, width) <= VEHICLE_WIDTH:
-                total_ldm += (min(length, width) / 100)
-            else:
-                total_ldm += (max(length, width) / 100)
-
-    return round(total_ldm, 1)  # Zaokrąglamy do 1 miejsca po przecinku
-
-
 def estimate_distance(postal_code_from, postal_code_to):
     """Oblicza odległość w km między dwoma kodami pocztowymi"""
     url = f"https://router.project-osrm.org/route/v1/driving/{postal_code_from};{postal_code_to}"
@@ -83,16 +31,6 @@ def estimate_distance(postal_code_from, postal_code_to):
     response = requests.get(url, headers=headers)
     data = response.json()
     return round(data["routes"][0]["distance"] / 1000.0, 2) if "routes" in data and data["routes"] else -1.0
-
-def format_date(days_offset):
-    """Konwertuje przesunięcie dni na format DD.MM.RRRR"""
-    date = datetime.datetime.now() + datetime.timedelta(days=int(days_offset))
-    return date.strftime("%d.%m.%Y")
-
-def calculate_date(days):
-    today = datetime.now()
-    return (today + timedelta(days=days)).strftime("%d.%m.%Y")
-     
 
 distance_tool = Tool(
     name="distance_tool",
@@ -116,6 +54,7 @@ json_extraction_tool = Tool(
         "delivery_date": "",
         "pickup_days": "",
         "delivery_days": "",
+        "distance_km":""
     }),
     description="Generuje pusty szablon JSON do uzupełnienia danymi transportowymi."
 )
@@ -139,6 +78,8 @@ def process():
     
     response = agent.run(f"Analizuj to zapytanie i zwróć dane w formacie JSON: {user_query}")
     data = json.loads(response) if response else None
+    
+    console.log(json.dumps(data, indent=4, ensure_ascii=False))
 
     if not data:
         console.log("[red]Błąd: Nie udało się przetworzyć zapytania.[/red]")
@@ -149,7 +90,7 @@ def process():
     data["ldm"] = calculate_ldm(data["loads"])
 
     # Formatowanie dat
-    data["pickup_date"] = calculate_date(data.get("pickup_days", 0))
+    data["pickup_date"] = calculate_date(data["pickup_days"])
     data["delivery_date"] = calculate_date(data.get("delivery_days", 1))  # Domyślnie dzień później
 
     # Stałe wartości (pojazd zawsze naczepa)
