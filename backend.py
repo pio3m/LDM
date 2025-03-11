@@ -7,6 +7,7 @@ from flask import Flask, request, jsonify, render_template
 from langchain.chat_models import ChatOpenAI
 from langchain.agents import AgentType, initialize_agent, Tool
 from rich.console import Console
+from datetime import datetime, timedelta
 
 load_dotenv()
 
@@ -35,42 +36,10 @@ def format_date(days_offset):
     date = datetime.datetime.now() + datetime.timedelta(days=int(days_offset))
     return date.strftime("%d.%m.%Y")
 
-def calculate_ldm(loads):
-    """Oblicza metry ładunkowe (LDM)"""
-    remaining_width = VEHICLE_WIDTH
-    total_ldm = 0.0
-
-    sorted_loads = sorted(loads, key=lambda x: max(x["width"], x["length"]), reverse=True)
-
-    for load in sorted_loads:
-        width, length = load["width"], load["length"]
-
-        if width > VEHICLE_WIDTH or length > VEHICLE_WIDTH:
-            total_ldm += length / 100.0
-            remaining_width -= width
-            continue
-
-        if width > length:
-            width, length = length, width
-
-        num_fit_by_width = VEHICLE_WIDTH // width
-        num_fit_by_length = VEHICLE_WIDTH // length
-
-        if num_fit_by_width > num_fit_by_length:
-            ldm_per_row = length / 100.0
-            max_in_row = num_fit_by_width
-        else:
-            ldm_per_row = width / 100.0
-            max_in_row = num_fit_by_length
-
-        num_rows = (load["quantity"] // max_in_row)
-        leftover = load["quantity"] % max_in_row
-
-        total_ldm += num_rows * ldm_per_row
-        if leftover > 0:
-            total_ldm += ldm_per_row * (leftover / max_in_row)
-
-    return round(total_ldm, 2)
+def calculate_date(days):
+    today = datetime.now()
+    return (today + timedelta(days=days)).strftime("%d.%m.%Y")
+     
 
 distance_tool = Tool(
     name="distance_tool",
@@ -126,8 +95,8 @@ def process():
     data["ldm"] = calculate_ldm(data["loads"])
 
     # Formatowanie dat
-    data["pickup_date"] = format_date(data.get("pickup_days", 0))
-    data["delivery_date"] = format_date(data.get("delivery_days", 1))  # Domyślnie dzień później
+    data["pickup_date"] = calculate_date(data.get("pickup_days", 0))
+    data["delivery_date"] = calculate_date(data.get("delivery_days", 1))  # Domyślnie dzień później
 
     # Stałe wartości (pojazd zawsze naczepa)
     data["vehicle_type"] = VEHICLE_TYPE
