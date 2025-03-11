@@ -86,9 +86,18 @@ def process():
 
     data["ldm"] = calculate_ldm(data["loads"])
 
-    # Formatowanie dat
-    data["pickup_date"] = calculate_date(data["pickup_days"])
-    data["delivery_date"] = calculate_date(data["delivery_days"])  # Domyślnie dzień później
+    
+    # Sprawdzenie, czy 'pickup_days' istnieje i nie jest pustym ciągiem
+    if data.get("pickup_days") and len(data["pickup_days"].strip()) > 0:
+        data["pickup_date"] = calculate_date(data["pickup_days"])
+    else:
+        data["pickup_date"] = datetime.strptime(data["pickup_date"], "%d-%m-%Y").strftime("%Y-%m-%d")
+
+    # Sprawdzenie, czy 'delivery_days' istnieje i nie jest pustym ciągiem
+    if data.get("delivery_days") and len(data["delivery_days"].strip()) > 0:
+        data["delivery_date"] = calculate_date(data["delivery_days"])
+    else:
+        data["delivery_date"] = datetime.strptime(data["delivery_date"], "%d-%m-%Y").strftime("%Y-%m-%d")
 
     # Stałe wartości (pojazd zawsze naczepa)
     data["vehicle_type"] = VEHICLE_TYPE

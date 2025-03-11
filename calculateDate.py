@@ -3,6 +3,9 @@ from datetime import datetime, timedelta
 def calculate_date(days):
     """Oblicza datę na podstawie liczby dni podanej jako liczba całkowita lub ciąg znaków."""
     # Sprawdzenie, czy days jest ciągiem znaków
+    if not days:
+        return ""
+    
     if isinstance(days, str):
         try:
             # Konwersja ciągu znaków na liczbę całkowitą
