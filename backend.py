@@ -23,6 +23,59 @@ VEHICLE_WIDTH = 240
 VEHICLE_HEIGHT = 260
 VEHICLE_LENGTH = 1360
 
+def calculate_ldm(loads):
+    """
+    Oblicza zajętą długość pojazdu (LDM) na podstawie podanych ładunków.
+    
+    :param loads: Lista krotek zawierających (długość, szerokość, ilość) dla każdego ładunku.
+    :param vehicle_width: Szerokość pojazdu w cm (domyślnie 240 cm).
+    :return: Całkowita wartość LDM.
+    """
+    total_ldm = 0
+    remaining_width = VEHICLE_WIDTH
+
+    # Przetwarzanie ładunków
+    regular_loads = []
+
+    for length, width, quantity in loads:
+        if max(length, width) > VEHICLE_WIDTH:
+            # Jeśli ładunek jest dłuższy niż szerokość pojazdu, musi być ułożony wzdłuż
+            total_ldm += (max(length, width) / 100) * quantity
+            remaining_width -= min(length, width)
+        else:
+            regular_loads.append((length, width, quantity))
+
+    while regular_loads:
+        length, width, quantity = regular_loads.pop(0)
+        
+        # Ile razy długość lub szerokość zmieści się w szerokości pojazdu?
+        fit_by_length = VEHICLE_WIDTH // length
+        fit_by_width = VEHICLE_WIDTH // width
+
+        # Wybieramy sposób układania, który pozwala zmieścić więcej jednostek
+        if fit_by_length > fit_by_width:
+            units_per_row = fit_by_length
+            ldm_value = width / 100  # LDM to drugi wymiar
+        else:
+            units_per_row = fit_by_width
+            ldm_value = length / 100  # LDM to drugi wymiar
+
+        # Obliczamy ile rzędów możemy ułożyć
+        full_rows = quantity // units_per_row
+        remaining_units = quantity % units_per_row
+
+        total_ldm += full_rows * ldm_value
+
+        # Jeśli pozostały nierówne jednostki, próbujemy je dopasować
+        if remaining_units > 0:
+            if remaining_units * max(length, width) <= VEHICLE_WIDTH:
+                total_ldm += (min(length, width) / 100)
+            else:
+                total_ldm += (max(length, width) / 100)
+
+    return round(total_ldm, 1)  # Zaokrąglamy do 1 miejsca po przecinku
+
+
 def estimate_distance(postal_code_from, postal_code_to):
     """Oblicza odległość w km między dwoma kodami pocztowymi"""
     url = f"https://router.project-osrm.org/route/v1/driving/{postal_code_from};{postal_code_to}"
