@@ -3,174 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Obliczanie LDM</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
-    <style>
-        .container-flex {
-            display: flex;
-            gap: 20px;
-        }
-        .left-panel, .right-panel {
-            width: 50%;
-        }
-        .logs-container {
-            background-color: #1e1e1e;
-            color: #33ff33;
-            padding: 10px;
-            height: 250px;
-            overflow-y: auto;
-            border-radius: 5px;
-            font-family: monospace;
-            border: 1px solid #333;
-        }
-        .result-box {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            margin-top: 15px;
-        }
-    </style>
+    <title>Agent Transportowy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <div class="container mt-5">
-        <h2 class="text-center">🚛 Obliczanie LDM</h2>
-
-        <div class="container-flex">
-            <!-- LEWA STRONA: PROMPT + LOGI -->
-            <div class="left-panel">
-                <form id="transportForm" class="mt-4">
-                    <div class="mb-3">
-                        <label for="query" class="form-label">Podaj szczegóły transportu:</label>
-                        <textarea class="form-control" id="query" rows="4" placeholder="np. Chcę przewieźć 4 palety 100x80 cm o wysokości 2 metry..."></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">📤 Prześlij</button>
-                </form>
-
-                <div id="loading" class="text-center mt-3" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Przetwarzanie danych...
-                </div>
-
-                <div class="mt-4">
-                    <h4>📜 Logi Agenta:</h4>
-                    <div id="logs" class="logs-container"></div>
-                </div>
-
-                <div id="result" class="result-box d-none"></div>
-            </div>
-
-            <!-- PRAWA STRONA: FORMULARZ -->
-            <div class="right-panel">
-                <h4>📄 Formularz transportowy</h4>
-                <form id="autoFillForm" class="mt-4">
-                    <div class="mb-3">
-                        <label class="form-label">Wysokość (m):</label>
-                        <input type="number" class="form-control" id="height" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Szerokość (m):</label>
-                        <input type="number" class="form-control" id="width" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Długość (m):</label>
-                        <input type="number" class="form-control" id="length" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Ilość ładunków:</label>
-                        <input type="number" class="form-control" id="quantity" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Preferowany pojazd:</label>
-                        <select class="form-select" id="vehicleType">
-                            <option value="brak informacji">Brak informacji</option>
-                            <option value="bus">Bus</option>
-                            <option value="solowka">Solówka</option>
-                            <option value="naczepa">Naczepa</option>
-                            <option value="ponadgabaryt">Ponadgabaryt</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Termin odbioru:</label>
-                        <input type="date" class="form-control" id="pickupDate">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Termin dostawy:</label>
-                        <input type="date" class="form-control" id="deliveryDate">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kod pocztowy odbioru:</label>
-                        <input type="text" class="form-control" id="pickupPostalCode" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kod pocztowy dostawy:</label>
-                        <input type="text" class="form-control" id="deliveryPostalCode" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Ilość kilometrów:</label>
-                        <input type="text" class="form-control" id="distance_km" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Ilość LDM:</label>
-                        <input type="text" class="form-control" id="ldm" disabled>
-                    </div>
-                </form>
-            </div>
-        </div>
+    <div class="container">
+        <h1>Agent Transportowy</h1>
+        
+        <label for="prompt">Wpisz opis transportu:</label>
+        <textarea id="prompt" placeholder=""></textarea>
+        
+        <button id="submit">Wyślij</button>
+        
+        <div id="loader" class="loader" style="display: none;"></div>
+        
+        <h2>Wynik JSON:</h2>
+        <pre id="result"></pre>
     </div>
 
-    <script>
-        document.getElementById('transportForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            let userQuery = document.getElementById('query').value;
-            let resultDiv = document.getElementById('result');
-            let loadingDiv = document.getElementById('loading');
-            let logsDiv = document.getElementById('logs');
-
-            resultDiv.classList.add('d-none');
-            loadingDiv.style.display = 'block';
-            logsDiv.innerHTML = '';
-
-            function appendLog(log) {
-                logsDiv.innerHTML += `<div>> ${log}</div>`;
-                logsDiv.scrollTop = logsDiv.scrollHeight;
-            }
-
-            appendLog("📤 Wysłano zapytanie do agenta...");
-            
-            fetch('/process', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ query: userQuery })
-            })
-            .then(response => response.json())
-            .then(data => {
-                loadingDiv.style.display = 'none';
-                resultDiv.classList.remove('d-none');
-
-                console.log(data);
-
-                appendLog("✅ Agent przetworzył dane!");
-
-                document.getElementById('height').value = data.loads[0].height;
-                document.getElementById('width').value = data.loads[0].width;
-                document.getElementById('length').value = data.loads[0].length;
-                document.getElementById('quantity').value = data.loads[0].quantity;
-                document.getElementById('pickupDate').value = data.pickup_date;
-                document.getElementById('deliveryDate').value = data.delivery_date;
-                document.getElementById('pickupPostalCode').value = data.pickup_postal_code;
-                document.getElementById('deliveryPostalCode').value = data.delivery_postal_code;
-                document.getElementById('distance_km').value = data.distance_km;
-                document.getElementById('ldm').value = data.ldm;
-
-                logsDiv.innerHTML += `<div>✅ Formularz został uzupełniony.</div>`;
-            })
-            .catch(error => {
-                loadingDiv.style.display = 'none';
-                logsDiv.innerHTML += `<div class="text-danger">❌ Błąd podczas przetwarzania.</div>`;
-                console.error('Błąd:', error);
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

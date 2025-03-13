@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formularz Transportu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Formularz Transportu</h1>
+        <form>
+            <label>Wysokość ładunku (cm):</label>
+            <input type="number" value="{{ data.palety[0].rozmiar.wysokosc }}" required>
+
+            <label>Szerokość ładunku (cm):</label>
+            <input type="number" value="{{ data.palety[0].rozmiar.szerokosc }}" required>
+
+            <label>Długość ładunku (cm):</label>
+            <input type="number" value="{{ data.palety[0].rozmiar.dlugosc }}" required>
+
+            <label>Ilość ładunków (palet):</label>
+            <input type="number" value="{{ data.palety[0].ilosc }}" required>
+
+            <label>Możliwość piętrowania:</label>
+            <input type="checkbox">
+
+            <label>Zlecenie pilne:</label>
+            <input type="checkbox">
+
+            <label>Termin odbioru:</label>
+            <input type="date" value="{{ data.odbiór.termin }}" required>
+
+            <label>Termin dostawy:</label>
+            <input type="date" value="{{ data.dostawa.termin }}" required>
+
+            <label>Kod pocztowy odbioru:</label>
+            <input type="text" value="{{ data.odbiór.kod_pocztowy }}" required>
+
+            <label>Kod pocztowy dostawy:</label>
+            <input type="text" value="{{ data.dostawa.kod_pocztowy }}" required>
+
+            <button type="submit">Zapisz</button>
+        </form>
+    </div>
+</body>
+</html>
