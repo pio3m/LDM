@@ -2,6 +2,31 @@
 import requests
 from langchain.agents import Tool
 
+
+def get_postal_code_from_city(city: str) -> str:
+    """
+    Pobiera kod pocztowy na podstawie nazwy miasta, korzystając z OpenStreetMap (OSM).
+    """
+    lat, lon = geocode_address(city)
+    
+    if lat is None or lon is None:
+        return ""
+
+    # 🔹 Pobieranie kodu pocztowego na podstawie współrzędnych
+    url = f"https://nominatim.openstreetmap.org/reverse?lat={lat}&lon={lon}&format=json"
+    headers = {"User-Agent": "TransportAgent/1.0"}
+    
+    try:
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+        if "address" in data and "postcode" in data["address"]:
+            return data["address"]["postcode"]
+    except:
+        pass
+
+    return ""
+
 def geocode_address(address: str) -> tuple[float, float]:
     """
     Zwraca (latitude, longitude) dla podanego adresu/miasta

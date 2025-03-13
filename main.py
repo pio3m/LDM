@@ -4,6 +4,9 @@ from langchain.schema import SystemMessage, HumanMessage
 import json
 import datetime
 import os
+from estimateDistance import get_distance_osm, get_postal_code_from_city
+from calculateLDM import calculate_ldm
+
 
 app = Flask(__name__)
 
@@ -15,13 +18,14 @@ def process_prompt(prompt):
     system_message = SystemMessage(content="""
     Jesteś asystentem do analizy transportu.
     Twoim zadaniem jest wypełnienie poniższego JSON na podstawie treści zapytania.
-    Jeśli nie masz pewności co do wartości, zostaw pole jako pusty string "".
 
     Struktura JSON:
     {
         "loads": [{"quantity": 0, "width": 0, "length": 0}],
         "pickup_postal_code": "",
         "delivery_postal_code": "",
+        "pickup_city":"",
+        "delivery_city":"",
         "pickup_date": "",
         "delivery_date": "",
         "distance_km": "",
@@ -47,11 +51,34 @@ def process_prompt(prompt):
             "loads": [{"quantity": 0, "width": 0, "length": 0}],
             "pickup_postal_code": "",
             "delivery_postal_code": "",
+            "pickup_city":"",
+            "delivery_city":"",
             "pickup_date": "",
             "delivery_date": "",
             "distance_km": "",
             "lmd": ""
         }
+    # 🔹 Jeśli brak kodu pocztowego odbioru, pobierz go z miasta
+    if not parsed_json.get("pickup_postal_code") and parsed_json.get("pickup_city"):
+        parsed_json["pickup_postal_code"] = get_postal_code_from_city(parsed_json["pickup_city"])
+
+    # 🔹 Jeśli brak kodu pocztowego dostawy, pobierz go z miasta
+    if not parsed_json.get("delivery_postal_code") and parsed_json.get("delivery_city"):
+        parsed_json["delivery_postal_code"] = get_postal_code_from_city(parsed_json["delivery_city"])
+
+    if parsed_json.get("loads"):
+        ldm_value = calculate_ldm(parsed_json["loads"])
+        if ldm_value >= 0:
+            parsed_json["lmd"] = f"{ldm_value:.1f} LDM"
+
+    if parsed_json.get("pickup_postal_code") and parsed_json.get("delivery_postal_code"):
+        origin = parsed_json["pickup_postal_code"]
+        destination = parsed_json["delivery_postal_code"]
+        distance_km = get_distance_osm(origin, destination)
+
+        # Jeśli funkcja zwróciła poprawną odległość, uzupełniamy wartość
+        if distance_km >= 0:
+            parsed_json["distance_km"] = distance_km
 
     return parsed_json
 
