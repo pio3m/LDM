@@ -22,7 +22,7 @@ def process_prompt(prompt):
 
     Struktura JSON:
     {
-        "loads": [{"quantity": 0, "width": 0, "length": 0}],
+        "loads": [{"quantity": 0, "width": 0, "length": 0, "height": 0}],
         "pickup_postal_code": "",
         "delivery_postal_code": "",
         "pickup_city":"",

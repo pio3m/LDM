@@ -25,11 +25,11 @@ document.getElementById("submit").addEventListener("click", function() {
         toggleButton.classList.remove("d-none");
 
         if (data.loads && data.loads.length > 0) {
-            document.getElementById("height").value = data.loads[0].height || "";
-            document.getElementById("width").value = data.loads[0].width || "";
-            document.getElementById("length").value = data.loads[0].length || "";
-            document.getElementById("quantity").value = data.loads[0].quantity || "";
-            document.getElementById("weight").value = data.loads[0].weight || "";
+            document.getElementById("height").value = data.loads[0].height || data.loads[0].wysokosc || "";
+            document.getElementById("width").value = data.loads[0].width || data.loads[0].szerokosc || "";
+            document.getElementById("length").value = data.loads[0].length || data.loads[0].dlugosc || "";
+            document.getElementById("quantity").value = data.loads[0].quantity || data.loads[0].ilosc || "";
+            document.getElementById("weight").value = data.loads[0].weight || data.loads[0].waga || "";
         }
         document.getElementById("pickup_date").value = data.pickup_date || "";
         document.getElementById("delivery_date").value = data.delivery_date || "";
