@@ -4,23 +4,107 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agent Transportowy</title>
+    <!-- Dodanie Bootstrap 5 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>Agent Transportowy</h1>
-        
-        <label for="prompt">Wpisz opis transportu:</label>
-        <textarea id="prompt" placeholder=""></textarea>
-        
-        <button id="submit">Wyślij</button>
-        
-        <div id="loader" class="loader" style="display: none;"></div>
-        
-        <h2>Wynik JSON:</h2>
-        <pre id="result"></pre>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="text-center">Agent Transportowy</h1>
+
+        <!-- Sekcja Prompt -->
+        <div class="card shadow p-4 mb-4">
+            <label for="prompt" class="form-label">Wpisz opis transportu:</label>
+            <textarea id="prompt" class="form-control" rows="3" placeholder="np. chcę przewieźć 3 palety 100x80 cm o wysokości 2 metry..."></textarea>
+            <div class="d-flex justify-content-center mt-3">
+                <button id="submit" class="btn btn-primary">Wyślij</button>
+            </div>
+            <div id="loader" class="spinner-border text-primary mt-3 mx-auto d-none" role="status"></div>
+        </div>
+
+        <!-- Przycisk do rozwijania JSON -->
+        <button id="toggle-json" class="btn btn-secondary d-none mb-3">Pokaż wynik JSON</button>
+        <pre id="result" class="border p-3 bg-white d-none"></pre>
+
+        <!-- Formularz Transportu -->
+        <div class="card shadow p-4">
+            <h2 class="text-center">Formularz Transportu</h2>
+            <form id="transport-form">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="height" class="form-label">Wysokość ładunku (cm):</label>
+                        <input type="number" id="height" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="width" class="form-label">Szerokość ładunku (cm):</label>
+                        <input type="number" id="width" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="length" class="form-label">Długość ładunku (cm):</label>
+                        <input type="number" id="length" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label for="quantity" class="form-label">Ilość ładunków (palet):</label>
+                        <input type="number" id="quantity" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="weight" class="form-label">Waga ładunku (kg):</label>
+                        <input type="number" id="weight" class="form-control" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="ldm" class="form-label">LDM:</label>
+                        <input type="text" id="ldm" class="form-control" readonly>
+                    </div>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="stackable" class="form-check-input">
+                    <label class="form-check-label" for="stackable">Możliwość piętrowania</label>
+                </div>
+
+                <div class="mb-3 form-check">
+                    <input type="checkbox" id="urgent" class="form-check-input">
+                    <label class="form-check-label" for="urgent">Zlecenie pilne</label>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="pickup_date" class="form-label">Termin odbioru:</label>
+                        <input type="date" id="pickup_date" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="delivery_date" class="form-label">Termin dostawy:</label>
+                        <input type="date" id="delivery_date" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="pickup_postal_code" class="form-label">Kod pocztowy odbioru:</label>
+                        <input type="text" id="pickup_postal_code" class="form-control" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="delivery_postal_code" class="form-label">Kod pocztowy dostawy:</label>
+                        <input type="text" id="delivery_postal_code" class="form-control" required>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="distance_km" class="form-label">Liczba kilometrów:</label>
+                    <input type="text" id="distance_km" class="form-control" readonly>
+                </div>
+
+                <div class="d-flex justify-content-center">
+                    <button type="submit" class="btn btn-success">Zapisz</button>
+                </div>
+            </form>
+        </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

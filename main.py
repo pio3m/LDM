@@ -6,10 +6,11 @@ import datetime
 import os
 from estimateDistance import get_distance_osm, get_postal_code_from_city
 from calculateLDM import calculate_ldm
-
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
+load_dotenv()
 llm = ChatOpenAI(model="gpt-4", temperature=0, openai_api_key=os.getenv("OPENAI_API_KEY"))
 
 def process_prompt(prompt):
@@ -29,7 +30,7 @@ def process_prompt(prompt):
         "pickup_date": "",
         "delivery_date": "",
         "distance_km": "",
-        "lmd": ""
+        "ldm": ""
     }
 
     Zasady:
@@ -69,7 +70,7 @@ def process_prompt(prompt):
     if parsed_json.get("loads"):
         ldm_value = calculate_ldm(parsed_json["loads"])
         if ldm_value >= 0:
-            parsed_json["lmd"] = f"{ldm_value:.1f} LDM"
+            parsed_json["ldm"] = f"{ldm_value:.1f} LDM"
 
     if parsed_json.get("pickup_postal_code") and parsed_json.get("delivery_postal_code"):
         origin = parsed_json["pickup_postal_code"]
