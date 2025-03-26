@@ -7,7 +7,7 @@ function fetchOffersFromApi() {
     $baseDate = $date->format('Y-m-d\TH:i:s\Z');
     
     $usr = base64_encode("sevium.api@firmao.pl:5b57038a278e4dbd");
-    $url = "https://system.firmao.pl/sevium/svc/v1/offers?creationDate(gt)=" . $baseDate . "&limit=5&sort=creationDate&dir=DESC&mode(eq)=purchase";
+    $url = "https://system.firmao.pl/sevium/svc/v1/offers?creationDate(gt)=" . $baseDate . "&limit=33&sort=creationDate&dir=DESC&mode(eq)=purchase";
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($curl, CURLOPT_HEADER, false);
@@ -137,6 +137,7 @@ function combineOfferAndTransactionData() {
 
     return $combinedData;
 }
+
 
 ?>
 
