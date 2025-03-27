@@ -7,7 +7,7 @@ function fetchOffersFromApi() {
     $baseDate = $date->format('Y-m-d\TH:i:s\Z');
     
     $usr = base64_encode("sevium.api@firmao.pl:5b57038a278e4dbd");
-    $url = "https://system.firmao.pl/sevium/svc/v1/offers?creationDate(gt)=" . $baseDate . "&limit=33&sort=creationDate&dir=DESC&mode(eq)=purchase";
+    $url = "https://system.firmao.pl/sevium/svc/v1/offers?creationDate(gt)=" . $baseDate . "&limit=30&sort=creationDate&dir=DESC&mode(eq)=purchase";
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($curl, CURLOPT_HEADER, false);
@@ -95,11 +95,11 @@ function extractDataFromJson() {
         foreach ($data['data'] as $item) {
             if (isset($item['id'])) {
                 $result[$item['id']] = [
+                    'creationDate' => date('Y-m-d', strtotime($item['creationDate'])),
                     'baseBruttoPrice' => $item['baseBruttoPrice'],
                     'baseNettoPrice' => $item['baseNettoPrice'],
                     'custom5' => isset($item['customFields']['custom5']) ? $item['customFields']['custom5'] : null,
                     'trasa' => $item['customFields']['custom6'],
-                
                 ];
             }
         }
@@ -124,6 +124,7 @@ function combineOfferAndTransactionData() {
         $addresses = array_column($transactionsData[$id], 'custom2');
         $combinedData[] = [
             'id' => $id,
+            'creationDate' => $offer['creationDate'],
             'baseBruttoPrice' => $offer['baseBruttoPrice'],
             'baseNettoPrice' => $offer['baseNettoPrice'],
             'custom5' => $offer['custom5'],

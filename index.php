@@ -2,6 +2,9 @@
 require_once 'calculateDistance.php';
 require_once 'drawFromApi.php';
 require_once 'estimatePriceAverage.php';
+require_once 'database/test_data.php';
+require_once 'prepare_data_for_pricing.php';
+require_once 'database/seed_database.php';
 
 // // Importowanie i wyświetlanie danych z estimatePriceAverage.php
 // // $postalCode1 = '00-193';
@@ -13,41 +16,32 @@ $apiKey = '5b3ce3597851110001cf6248091b8d6b6f8949c4b843be3f2a106ad2';
 // // // Obliczanie odległości po drogach
 // // $distance = calculateRoadDistance($postalCode1, $postalCode2, $apiKey);
 
-// // // Wyświetlanie wyniku
-// // if ($distance !== null) {
-// //     echo "Odległość po drogach między $postalCode1 a $postalCode2 wynosi: " . $distance . " km";
-// // } else {
-// //     echo "Nie można obliczyć odległości po drogach między $postalCode1 a $postalCode2.";
-// // }
+// Sprawdzenie, czy formularz został wysłany
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['seed_database'])) {
+    // Pobieranie danych z API i obliczanie odległości
+    $firmaoData = combineOfferAndTransactionData();
+    $firmaoDataWithDistances = calculateDistancesFromFirmaoData($firmaoData, $apiKey);
 
-// // Pobieranie danych z funkcji
-// $postalDataArray = generatePostalDataArray(55);
+    // Czyszczenie bazy danych
+    cleanOldTransports();
 
-// // Obliczanie odległości dla każdego elementu tablicy
-// $postalDataArrayWithDistances = calculateDistancesForPostalData($postalDataArray, $apiKey);
+    // Seedowanie bazy danych
+    seedDatabaseWithTransports($firmaoDataWithDistances);
+}
 
-// // Grupowanie danych według typu pojazdu
-// $groupedData = groupByVehicleType($postalDataArrayWithDistances);
-
-// // Obliczanie średniej ceny dla każdej podgrupy
-// $groupedDataWithAverages = calculateAveragePriceForGroups($groupedData);
-
-// // // Definiowanie typów pojazdów i zakresów odległości
-// // $vehicleTypes = ['solówka', 'bus', 'naczepa', 'inne'];
-// // $distanceRanges = ['0-100', '100.1-200', '200.1-300', '300.1-400', '400.1-500', '500.1-600', '600+'];
-
-// Pobieranie danych z API i obliczanie odległości
-$firmaoData = combineOfferAndTransactionData();
-$firmaoDataWithDistances = calculateDistancesFromFirmaoData($firmaoData, $apiKey);
-
-// Grupowanie danych według trasy
-$groupedData = groupByRoute($firmaoDataWithDistances);
+// Wywołanie funkcji groupByRoute
+$groupedData = groupByRoute();
 
 // Grupowanie danych według typu pojazdu i odległości
 $finalData = groupByVehicleType($groupedData);
 
 // Obliczanie średniej ceny dla każdej podgrupy
 $groupedDataWithAverages = calculateAveragePriceForGroups($finalData);
+
+// Formularz do seedowania bazy danych
+echo '<form method="POST">';
+echo '<button type="submit" name="seed_database">Seeduj bazę danych</button>';
+echo '</form>';
 
 // Wyświetlanie tabeli dla Krajowy
 echo '<h2>Krajowy</h2>';
@@ -89,11 +83,14 @@ foreach ($distanceRanges as $range) {
 }
 echo '</table>';
 
+// Wyświetlanie wyników w tabeli
+
 // Wyświetlanie zawartości groupedDataWithAverages
 
 // require_once 'drawFromApi.php';
 // require_once 'test.php';
 
+// Pobieranie wszystkich rekordów z tabeli transports
 
 
 ?>
