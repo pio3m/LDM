@@ -3,26 +3,34 @@
 require_once 'db.php';
 
 try {
-    // Zapytanie SQL do tworzenia tabeli
-    $sql = "CREATE TABLE IF NOT EXISTS transports (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        offer_id TEXT,
-        creation_date DATE,
-        address1 TEXT,
-        postal_code1 TEXT,
-        address2 TEXT,
-        postal_code2 TEXT,
-        price DECIMAL(10, 2),
-        distance DECIMAL(10, 2),
-        transport_type TEXT,
-        route_type TEXT
-    )";
+    // Tworzenie tabeli transports, jeśli nie istnieje
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS transports (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            offer_id INT NOT NULL,
+            creation_date DATE NOT NULL,
+            address1 VARCHAR(255),
+            postal_code1 VARCHAR(20),
+            address2 VARCHAR(255),
+            postal_code2 VARCHAR(20),
+            price DECIMAL(10, 2),
+            distance DECIMAL(10, 2),
+            transport_type VARCHAR(50),
+            route_type VARCHAR(50)
+        )
+    ");
 
-    // Wykonanie zapytania
-    $pdo->exec($sql);
-    echo "Tabela 'transports' została pomyślnie utworzona.";
+    // Tworzenie tabeli pricing, jeśli nie istnieje
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS pricing (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            price_factor DECIMAL(10, 2) NOT NULL
+        )
+    ");
+
+    echo "Tabele zostały pomyślnie utworzone.";
 } catch (PDOException $e) {
-    echo "Błąd podczas tworzenia tabeli: " . $e->getMessage();
+    echo "Błąd podczas tworzenia tabel: " . $e->getMessage();
 }
 
 ?>
