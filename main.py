@@ -22,7 +22,7 @@ def process_prompt(prompt):
 
     Struktura JSON:
     {
-        "loads": [{"quantity": 0, "width": 0, "length": 0, "height": 0}],
+        "loads": [{"quantity": 0, "width": 0, "length": 0, "height": 0, "weight": 0}],
         "pickup_postal_code": "",
         "delivery_postal_code": "",
         "pickup_city":"",
@@ -38,6 +38,8 @@ def process_prompt(prompt):
     - Jeśli znajdziesz kod pocztowy dla miejsca odbioru i dostawy - uzupełnij.
     - Jeśli znajdziesz termin odbioru i dostawy - zamień go na YYYY-MM-DD.
     - Jeśli nie masz pewności co do wartości, zostaw pole jako pusty string.
+    - Jeśli znajdziesz informację o wadze ładunku, uzupełnij pole "weight" w kilogramach.
+    Odpowiadaj tylko czystym JSON-em, bez dodatkowych wyjaśnień.
     """)
 
     user_message = HumanMessage(content=prompt)
@@ -57,7 +59,7 @@ def process_prompt(prompt):
             "pickup_date": "",
             "delivery_date": "",
             "distance_km": "",
-            "lmd": ""
+            "ldm": ""
         }
     # 🔹 Jeśli brak kodu pocztowego odbioru, pobierz go z miasta
     if not parsed_json.get("pickup_postal_code") and parsed_json.get("pickup_city"):
