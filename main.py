@@ -37,8 +37,11 @@ def process_prompt(prompt):
     - Jeśli znajdziesz ilość palet, szerokość, długość - uzupełnij je.
     - Jeśli znajdziesz kod pocztowy dla miejsca odbioru i dostawy - uzupełnij.
     - Jeśli znajdziesz termin odbioru i dostawy - zamień go na YYYY-MM-DD.
-    - Jeśli nie masz pewności co do wartości, zostaw pole jako pusty string.
     - Jeśli znajdziesz informację o wadze ładunku, uzupełnij pole "weight" w kilogramach.
+    - Zamiast centymetrów podawaj metry (z dokładnością do 2 miejsc po przecinku).
+    - Zamiast kilogramów podawaj tony (z dokładnością do 2 miejsc po przecinku).
+    - Jeśli nie masz pewności co do wartości, zostaw pole jako pusty string.
+
     Odpowiadaj tylko czystym JSON-em, bez dodatkowych wyjaśnień.
     """)
 
