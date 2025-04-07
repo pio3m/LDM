@@ -32,8 +32,9 @@ def calculate_ldm(loads):
             console.log("[red]Błąd: Nieprawidłowy format pojedynczego ładunku.[/red]")
             return -1
         
-        length = load.get('length', 0)
-        width = load.get('width', 0)
+        length = load.get('length', 0) * 100  # z metrów na cm
+        width = load.get('width', 0) * 100
+
         quantity = load.get('quantity', 1)
         
         if max(length, width) > VEHICLE_WIDTH:
