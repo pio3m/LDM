@@ -74,6 +74,10 @@ $finalData = groupByVehicleType($groupedData);
 // Obliczanie średniej ceny dla każdej podgrupy
 $groupedDataWithAverages = calculateAveragePriceForGroups($finalData);
 
+echo '<form method="POST" action="database/fracht_management.php">';
+echo '<button type="submit">Zarządzaj Frachtami</button>';
+echo '</form>';
+
 // Formularz do seedowania bazy danych
 echo '<form method="POST">';
 echo '<button type="submit" name="seed_database">Seeduj bazę danych</button>';
@@ -161,6 +165,7 @@ foreach ($distanceRanges as $range) {
 }
 echo '</table>';
 
+// Dodanie przycisku do przejścia do fracht_management.php
 
 ?>
 

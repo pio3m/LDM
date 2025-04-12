@@ -27,6 +27,37 @@ try {
             price_factor DECIMAL(10, 2) NOT NULL
         )
     ");
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS bus (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            max_weight INT NOT NULL,
+            min_ldm DECIMAL(10, 2) NOT NULL,
+            max_ldm DECIMAL(10, 2) NOT NULL,
+            fracht DECIMAL(10, 2) NOT NULL
+        )
+    ");
+
+    // Tworzenie tabeli solo, jeśli nie istnieje
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS solo (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            max_weight INT NOT NULL,
+            min_ldm DECIMAL(10, 2) NOT NULL,
+            max_ldm DECIMAL(10, 2) NOT NULL,
+            fracht DECIMAL(10, 2) NOT NULL
+        )
+    ");
+
+    // Tworzenie tabeli naczepa, jeśli nie istnieje
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS naczepa (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            max_weight INT NOT NULL,
+            min_ldm DECIMAL(10, 2) NOT NULL,
+            max_ldm DECIMAL(10, 2) NOT NULL,
+            fracht DECIMAL(10, 2) NOT NULL
+        )
+    ");
 
     echo "Tabele zostały pomyślnie utworzone.";
 } catch (PDOException $e) {
