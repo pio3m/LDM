@@ -1,0 +1,25 @@
+services:
+  php:
+    build:
+      context: ./php
+    ports:
+      - "8000:80"
+    volumes:
+      - ./php:/var/www/html
+    depends_on:
+      - mysql
+
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: transport
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123
+      MYSQL_ROOT_PASSWORD: 123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:

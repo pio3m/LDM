@@ -1,6 +1,6 @@
 <?php
 
-$host = 'localhost';
+$host = 'mysql';
 $dbname = 'transport';
 $user = 'root';
 $password = '123';
