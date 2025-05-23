@@ -1,13 +1,14 @@
 <?php
 
 require_once 'database/db.php';
-
+require_once 'Logger.php';
 
 function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $ldm) {
     if ($vehicleType === 'solo') {
         $vehicleType = 'Solówka';
     }
     global $pdo;
+    $logger = new Logger();
     $priceFactor = 0;
     try {
         $stmt = $pdo->query("SELECT price_factor FROM pricing LIMIT 1");
@@ -15,9 +16,12 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
         if ($priceFactor === false) {
             $priceFactor = 0; // Ustawienie domyślnej wartości, jeśli brak wpisu
         }
+        $logger->log("Pobrano priceFactor: $priceFactor");
     } catch (PDOException $e) {
+        $logger->log("Błąd podczas pobierania price factor: " . $e->getMessage());
         return ['error' => 'Błąd podczas pobierania price factor: ' . $e->getMessage()];
     }
+    
 
     // Wybór tabeli na podstawie vehicleType
     $table = '';
@@ -58,35 +62,50 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
     $averagePriceWithMargin = null;
     $distanceRanges = ['0-100', '100.1-200', '200.1-300', '300.1-400', '400.1-500', '500.1-600', '600+'];
 
+    $logger->log("Sprawdzam, czy istnieje grupa dla routeType: $routeType");
     if (isset($groupedDataWithAverages[$routeType])) {
-        
+        $logger->log("Znaleziono grupę dla routeType: $routeType");
         if ($routeType === 'Krajowy') {
-            
+            $logger->log("Przetwarzam trasę krajową, vehicleType: $vehicleType, distance: $distance");
             foreach ($distanceRanges as $range) {
                 list($min, $max) = explode('-', str_replace('+', '', $range));
+                $logger->log("Sprawdzam zakres: $range (min: $min, max: $max)");
                 if ($distance >= (float)$min && ($max === '' || $distance <= (float)$max)) {
+                    $logger->log("Dystans $distance pasuje do zakresu $range");
                     $averagePrice = $groupedDataWithAverages['Krajowy'][$vehicleType][$range]['averagePrice'] ?? null;
                     if ($averagePrice !== null) {
                         $averagePriceWithMargin = $averagePrice * (1 + $priceFactor);
+                        $logger->log("Znaleziono averagePrice: $averagePrice, averagePriceWithMargin: $averagePriceWithMargin");
+                    } else {
+                        $logger->log("Nie znaleziono averagePrice dla tego zakresu");
                     }
                     break;
                 }
             }
         } else {
+            $logger->log("Przetwarzam trasę $routeType, distance: $distance");
             foreach ($distanceRanges as $range) {
                 list($min, $max) = explode('-', str_replace('+', '', $range));
+                $logger->log("Sprawdzam zakres: $range (min: $min, max: $max)");
                 if ($distance >= (float)$min && ($max === '' || $distance <= (float)$max)) {
+                    $logger->log("Dystans $distance pasuje do zakresu $range");
                     $averagePrice = $groupedDataWithAverages[$routeType][$range]['averagePrice'] ?? null;
                     if ($averagePrice !== null) {
                         $averagePriceWithMargin = $averagePrice * (1 + $priceFactor);
+                        $logger->log("Znaleziono averagePrice: $averagePrice, averagePriceWithMargin: $averagePriceWithMargin");
+                    } else {
+                        $logger->log("Nie znaleziono averagePrice dla tego zakresu");
                     }
                     break;
                 }
             }
         }
+    } else {
+        $logger->log("Nie znaleziono grupy dla routeType: $routeType");
     }
 
     if ($averagePrice === null) {
+        $logger->log("Nie znaleziono odpowiedniej średniej ceny, zwracam błąd");
         return ['error' => 'Nie znaleziono odpowiedniej średniej ceny'];
     }
 

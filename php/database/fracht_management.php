@@ -2,9 +2,6 @@
 
 require_once 'db.php';
 
-// Sprawdzenie, czy żądanie jest metodą POST
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     // Funkcja do dodawania wiersza do tabeli
     function addRow($table, $maxWeight, $minLdm, $maxLdm, $fracht) {
         global $pdo;
@@ -122,9 +119,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     displayTable('bus');
     displayTable('solo');
     displayTable('naczepa');
-
-} else {
-    echo "Dostęp do tej strony jest możliwy tylko przez POST.";
-}
 
 ?>

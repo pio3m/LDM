@@ -6,6 +6,7 @@ require_once 'database/test_data.php';
 require_once 'prepare_data_for_pricing.php';
 require_once 'database/seed_database.php';
 require_once 'database/db.php';
+require_once 'Logger.php';
 
 // // Importowanie i wyświetlanie danych z estimatePriceAverage.php
 // // $postalCode1 = '00-193';
@@ -166,6 +167,15 @@ foreach ($distanceRanges as $range) {
 echo '</table>';
 
 // Dodanie przycisku do przejścia do fracht_management.php
+
+// Wyświetlanie logów na dole strony
+echo '<h2>Logi systemowe</h2>';
+$logger = new Logger();
+echo '<pre style="background:#eee;max-height:300px;overflow:auto;">';
+foreach ($logger->getLogs(50) as $logLine) {
+    echo htmlspecialchars($logLine) . "\n";
+}
+echo '</pre>';
 
 ?>
 

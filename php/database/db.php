@@ -2,7 +2,7 @@
 
 $host = 'mysql';
 $dbname = 'transport';
-$user = 'root';
+$user = 'user';
 $password = '123';
 
 try {
