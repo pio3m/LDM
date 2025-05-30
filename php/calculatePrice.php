@@ -4,11 +4,24 @@ require_once 'database/db.php';
 require_once 'Logger.php';
 
 function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $ldm) {
+    global $pdo;
+    $logger = new Logger();
+
+    // Sprawdzenie czy dystans jest mniejszy lub równy 50
+    if ($distance <= 50) {
+        $logger->log("Dystans ($distance) mniejszy lub równy 50km, używam calculateRyczaltPrice");
+        return calculateRyczaltPrice($vehicleType, $routeType, $distance, $weight, $ldm);
+    }
+
     if ($vehicleType === 'solo') {
         $vehicleType = 'Solówka';
     }
-    global $pdo;
-    $logger = new Logger();
+    if ($routeType === 'export') {
+        $routeType = 'Eksport';
+    }
+    if ($routeType === 'import') {
+        $routeType = 'Import';
+    }   
     $priceFactor = 0;
     try {
         $stmt = $pdo->query("SELECT price_factor FROM pricing LIMIT 1");
@@ -54,16 +67,20 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
 
     // Wywołanie funkcji do grupowania danych
     $groupedData = groupByRoute();
+    
     $finalData = groupByVehicleType($groupedData);
     $groupedDataWithAverages = calculateAveragePriceForGroups($finalData);
+
 
     // Znalezienie średniej ceny
     $averagePrice = null;
     $averagePriceWithMargin = null;
     $distanceRanges = ['0-100', '100.1-200', '200.1-300', '300.1-400', '400.1-500', '500.1-600', '600+'];
-
+    
     $logger->log("Sprawdzam, czy istnieje grupa dla routeType: $routeType");
+    
     if (isset($groupedDataWithAverages[$routeType])) {
+        
         $logger->log("Znaleziono grupę dla routeType: $routeType");
         if ($routeType === 'Krajowy') {
             $logger->log("Przetwarzam trasę krajową, vehicleType: $vehicleType, distance: $distance");
@@ -83,6 +100,7 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
                 }
             }
         } else {
+            
             $logger->log("Przetwarzam trasę $routeType, distance: $distance");
             foreach ($distanceRanges as $range) {
                 list($min, $max) = explode('-', str_replace('+', '', $range));
@@ -119,6 +137,56 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
         'transport_price' => round($transportPrice, 2),
         'transport_price_with_margin' => round($transportPriceWithMargin, 2)
     ];
+}
+
+function calculateRyczaltPrice($vehicleType, $routeType, $distance, $weight, $ldm) {
+    global $pdo;
+    $logger = new Logger();
+
+    if ($vehicleType === 'solo') {
+        $vehicleType = 'Solówka';
+    }
+    if ($vehicleType === 'Solówka') {
+        $vehicleType = 'solo';
+    }
+
+    try {
+        $stmt = $pdo->prepare("
+            SELECT price, max_weight 
+            FROM ryczalt 
+            WHERE vehicle_type = :vehicle_type 
+            AND min_ldm <= :ldm 
+            AND max_ldm >= :ldm 
+            LIMIT 1
+        ");
+        
+        $stmt->execute([
+            'vehicle_type' => $vehicleType,
+            'ldm' => $ldm
+        ]);
+        
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row === false) {
+            $logger->log("Nie znaleziono odpowiedniej ceny ryczałtowej dla: vehicle_type=$vehicleType, ldm=$ldm");
+            return ['error' => 'Nie znaleziono odpowiedniej ceny ryczałtowej'];
+        }
+
+        if ($weight > $row['max_weight']) {
+            $logger->log("Przekroczona maksymalna waga dla pojazdu: weight=$weight, max_weight={$row['max_weight']}");
+            return ['error' => 'Przekroczona maksymalna waga dla wybranego pojazdu'];
+        }
+
+        $logger->log("Znaleziono cenę ryczałtową: {$row['price']} dla: vehicle_type=$vehicleType, ldm=$ldm, weight=$weight");
+        
+        return [
+            'transport_price_with_margin' => $row['price']
+        ];
+
+    } catch (PDOException $e) {
+        $logger->log("Błąd podczas pobierania ceny ryczałtowej: " . $e->getMessage());
+        return ['error' => 'Błąd podczas pobierania ceny ryczałtowej: ' . $e->getMessage()];
+    }
 }
 
 ?>

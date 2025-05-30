@@ -27,6 +27,17 @@ function seedFreightTables(PDO $pdo) {
         [24000, 10.51, 13.60, 1.00]
     ];
 
+    // Dane do tabeli `ryczalt`
+    $ryczaltData = [
+        // [typ_pojazdu, max_weight, min_ldm, max_ldm, fracht, price]
+        // Przykładowa struktura:
+        ['bus', 800, 0.80, 2.40, 0.70, 350],
+        ['bus', 1500, 2.41, 4.80, 1, 500],
+        ['solo', 9000, 0.80, 7.7, 1, 800],
+        ['naczepa', 24000, 0.80, 13.6, 1, 1000],
+
+    ];
+
     try {
         $pdo->beginTransaction();
 
@@ -34,6 +45,7 @@ function seedFreightTables(PDO $pdo) {
         $pdo->exec("DELETE FROM bus");
         $pdo->exec("DELETE FROM solo");
         $pdo->exec("DELETE FROM naczepa");
+        $pdo->exec("DELETE FROM ryczalt");
 
         // Seedowanie danych do tabeli `bus`
         $stmt = $pdo->prepare("INSERT INTO bus (max_weight, min_ldm, max_ldm, fracht) VALUES (?, ?, ?, ?)");
@@ -50,6 +62,12 @@ function seedFreightTables(PDO $pdo) {
         // Seedowanie danych do tabeli `naczepa`
         $stmt = $pdo->prepare("INSERT INTO naczepa (max_weight, min_ldm, max_ldm, fracht) VALUES (?, ?, ?, ?)");
         foreach ($naczepaData as $row) {
+            $stmt->execute($row);
+        }
+
+        // Seedowanie danych do tabeli `ryczalt`
+        $stmt = $pdo->prepare("INSERT INTO ryczalt (vehicle_type, max_weight, min_ldm, max_ldm, fracht, price) VALUES (?, ?, ?, ?, ?, ?)");
+        foreach ($ryczaltData as $row) {
             $stmt->execute($row);
         }
 

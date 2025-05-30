@@ -59,6 +59,19 @@ try {
         )
     ");
 
+    // Tworzenie tabeli ryczalt, jeśli nie istnieje
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS ryczalt (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            vehicle_type VARCHAR(50) NOT NULL,
+            max_weight INT NOT NULL,
+            min_ldm DECIMAL(10, 2) NOT NULL,
+            max_ldm DECIMAL(10, 2) NOT NULL,
+            fracht DECIMAL(10, 2) NOT NULL,
+            price INT NOT NULL
+        )
+    ");
+
     echo "Tabele zostały pomyślnie utworzone.";
 } catch (PDOException $e) {
     echo "Błąd podczas tworzenia tabel: " . $e->getMessage();
