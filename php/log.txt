@@ -28,3 +28,4 @@
 [2025-05-15 14:23:13] Dodano nowy wpis dla offer_id: 13594
 [2025-05-15 14:23:13] Dodano nowy wpis dla offer_id: 13593
 [2025-05-15 14:23:13] Dodano nowy wpis dla offer_id: 13591
+[2025-05-24 06:47:13] Błąd podczas zapisywania danych: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'transport.transports' doesn't exist
