@@ -84,12 +84,19 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
         $logger->log("Znaleziono grupę dla routeType: $routeType");
         if ($routeType === 'Krajowy') {
             $logger->log("Przetwarzam trasę krajową, vehicleType: $vehicleType, distance: $distance");
+            
             foreach ($distanceRanges as $range) {
-                list($min, $max) = explode('-', str_replace('+', '', $range));
+                if ($range === '600+') {
+                    $min = '600';
+                    $max = '9999';
+                } else {
+                    list($min, $max) = explode('-', $range);
+                }
                 $logger->log("Sprawdzam zakres: $range (min: $min, max: $max)");
                 if ($distance >= (float)$min && ($max === '' || $distance <= (float)$max)) {
                     $logger->log("Dystans $distance pasuje do zakresu $range");
                     $averagePrice = $groupedDataWithAverages['Krajowy'][$vehicleType][$range]['averagePrice'] ?? null;
+                    
                     if ($averagePrice !== null) {
                         $averagePriceWithMargin = $averagePrice * (1 + $priceFactor);
                         $logger->log("Znaleziono averagePrice: $averagePrice, averagePriceWithMargin: $averagePriceWithMargin");
@@ -103,7 +110,14 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
             
             $logger->log("Przetwarzam trasę $routeType, distance: $distance");
             foreach ($distanceRanges as $range) {
-                list($min, $max) = explode('-', str_replace('+', '', $range));
+                
+                if ($range === '600+') {
+                   
+                    $min = '600';
+                    $max = '9999';
+                } else {
+                    list($min, $max) = explode('-', $range);
+                }
                 $logger->log("Sprawdzam zakres: $range (min: $min, max: $max)");
                 if ($distance >= (float)$min && ($max === '' || $distance <= (float)$max)) {
                     $logger->log("Dystans $distance pasuje do zakresu $range");
@@ -180,7 +194,8 @@ function calculateRyczaltPrice($vehicleType, $routeType, $distance, $weight, $ld
         $logger->log("Znaleziono cenę ryczałtową: {$row['price']} dla: vehicle_type=$vehicleType, ldm=$ldm, weight=$weight");
         
         return [
-            'transport_price_with_margin' => $row['price']
+            'transport_price_with_margin' => $row['price'],
+            'info' => 'Zastosowano cenę ryczałtową dla trasy poniżej 50km'
         ];
 
     } catch (PDOException $e) {
