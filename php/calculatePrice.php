@@ -22,6 +22,9 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
     if ($routeType === 'import') {
         $routeType = 'Import';
     }   
+    if ($routeType === 'krajowy') {
+        $routeType = 'Krajowy';
+    }
     $priceFactor = 0;
     try {
         $stmt = $pdo->query("SELECT price_factor FROM pricing LIMIT 1");
@@ -86,6 +89,7 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
             $logger->log("Przetwarzam trasę krajową, vehicleType: $vehicleType, distance: $distance");
             
             foreach ($distanceRanges as $range) {
+                
                 if ($range === '600+') {
                     $min = '600';
                     $max = '9999';
