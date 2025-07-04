@@ -2,7 +2,7 @@
 
 require_once 'db.php';
 
-// Funkcja do zapisywania logów
+//Funkcja do zapisywania logów
 function logMessage($message) {
     $logFile = 'log.txt'; // Nazwa pliku logu
     $currentDate = date('Y-m-d H:i:s');

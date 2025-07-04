@@ -4,6 +4,7 @@ require_once 'database/db.php';
 require_once 'Logger.php';
 
 function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $ldm) {
+    
     global $pdo;
     $logger = new Logger();
 
@@ -72,6 +73,7 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
     $groupedData = groupByRoute();
     
     $finalData = groupByVehicleType($groupedData);
+    
     $groupedDataWithAverages = calculateAveragePriceForGroups($finalData);
 
 
@@ -139,13 +141,13 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
     } else {
         $logger->log("Nie znaleziono grupy dla routeType: $routeType");
     }
-
+    
     if ($averagePrice === null) {
         $logger->log("Nie znaleziono odpowiedniej średniej ceny, zwracam błąd");
         return ['error' => 'Nie znaleziono odpowiedniej średniej ceny'];
     }
 
-    // Obliczenie ceny transportu
+    // Obliczenie ceny tvransportu
     $transportPrice = $distance * $fracht * $averagePrice;
     $transportPriceWithMargin = $distance * $fracht * $averagePriceWithMargin;
 
