@@ -16,6 +16,23 @@ require_once 'calculatePrice.php';
 require_once 'postToFirmao.php';
 require_once 'email/send_mail.php';
 
+// === Logger ===
+if (!class_exists('Logger')) { require_once __DIR__ . '/Logger.php'; } // jeśli klasa w osobnym pliku
+$logger = new Logger(__DIR__ . '/log.txt');
+
+// mały helper do logowania JSON
+function logj(Logger $logger, string $label, array $arr = []): void {
+    $logger->log($label . ' ' . json_encode($arr, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+}
+
+// request baseline
+$logger->log(sprintf(
+    'REQ method=%s ip=%s uri=%s',
+    $_SERVER['REQUEST_METHOD'] ?? '?',
+    $_SERVER['REMOTE_ADDR'] ?? '?',
+    $_SERVER['REQUEST_URI'] ?? '?'
+));
+
 
 // ===== Helpers: normalizacja, locki, batch storage, dedup maila =====
 function safe_id(string $id): string
@@ -131,22 +148,50 @@ function email_dedup_mark_sent($fp, string $marker): void
     }
 }
 
+function build_email_data(array $params, ?array $bestResult, string $vehicleLabel): array {
+    $tp    = $bestResult['transport_price'] ?? null;
+    $tp_m  = $bestResult['transport_price_with_margin'] ?? null;
+    $avg_m = $bestResult['average_price_with_margin'] ?? null;
+
+    return [
+        'prompt'        => $params['prompt'] ?? '',
+        'distance'      => $params['distance'] ?? 0,
+        'ldm'           => $params['ldm'] ?? 0,
+        'weight'        => $params['weight'] ?? 0,
+        'route_type'    => $params['route_type'] ?? '',
+        'vehicle_type'  => $vehicleLabel,
+
+        // pola używane w szablonie maila
+        'transport_price_display'     => is_numeric($tp_m) ? number_format($tp_m, 2, ',', ' ') . ' PLN' : '',
+        'total_netto'                 => is_numeric($tp_m) ? number_format($tp_m, 2, ',', ' ') . ' PLN' : '',
+        'average_price_with_margin'   => is_numeric($avg_m) ? number_format($avg_m, 2, ',', ' ') . ' PLN' : '',
+        'transport_price_with_margin' => is_numeric($tp_m) ? number_format($tp_m, 2, ',', ' ') . ' PLN' : '',
+    ];
+}
 
 // ===== BATCH MODE: 3 GET-y z query (dowolny) =====
 if (isset($_GET['batch']) && (int)$_GET['batch'] === 1) {
     $requestId = $_GET['request_id'] ?? '';
-    if (!$requestId) { http_response_code(400); echo json_encode(['error'=>'missing request_id']); exit; }
+    if (!$requestId) {
+        $logger->log('BATCH missing request_id');
+        http_response_code(400); echo json_encode(['error'=>'missing request_id']); exit;
+    }
 
-    // wymagane wspólne parametry (przychodzą w każdym z trzech calli)
     $routeType = $_GET['route_type'] ?? null;
     $distance  = isset($_GET['distance']) ? (float)$_GET['distance'] : null;
     $weight    = isset($_GET['weight']) ? (int)$_GET['weight'] : null;
     $ldm       = isset($_GET['ldm']) ? (float)$_GET['ldm'] : null;
     $email     = $_GET['email'] ?? '';
     $vehicleParam = $_GET['vehicle_type'] ?? '';
-    $token = normalize_vehicle_token($vehicleParam); // oczekujemy: bus | solo | naczepa
+    $token = normalize_vehicle_token($vehicleParam);
+
+    logj($logger, 'BATCH start', [
+        'rid'=>$requestId,'vehicle_param'=>$vehicleParam,'token'=>$token,
+        'rt'=>$routeType,'dist'=>$distance,'w'=>$weight,'ldm'=>$ldm,'email'=>$email
+    ]);
 
     if (!$routeType || $distance === null || $weight === null || $ldm === null || !$token) {
+        $logger->log('BATCH missing fields or unknown vehicle_type');
         http_response_code(400);
         echo json_encode(['error'=>'missing fields or unknown vehicle_type','vehicle_type'=>$_GET['vehicle_type'] ?? null]);
         exit;
@@ -154,74 +199,97 @@ if (isset($_GET['batch']) && (int)$_GET['batch'] === 1) {
 
     // lock batch
     $fp = @fopen(lock_path($requestId), 'c+');
-    if (!$fp) { http_response_code(500); echo json_encode(['error'=>'lock failed']); exit; }
+    if (!$fp) {
+        $logger->log('BATCH lock failed');
+        http_response_code(500); echo json_encode(['error'=>'lock failed']); exit;
+    }
     @flock($fp, LOCK_EX);
 
     // załaduj / zainicjuj stan
     $state = load_batch($requestId);
     if (!$state || !isset($state['started_at']) || (time() - ($state['started_at'] ?? 0) > 600)) {
-        $state = [
-            'started_at' => time(),
-            'params' => [
-                'route_type' => $routeType, 'distance' => $distance, 'weight' => $weight, 'ldm' => $ldm,
-                'email' => $email,
-                'phone' => $_GET['phone'] ?? '',
-                'prompt' => $_GET['prompt'] ?? '',
-                'urgent' => $_GET['urgent'] ?? '0', 'stackable' => $_GET['stackable'] ?? '0',
-                'pickup_date' => $_GET['pickup_date'] ?? '', 'delivery_date' => $_GET['delivery_date'] ?? '',
-                'pickup_postal_code' => $_GET['pickup_postal_code'] ?? '', 'delivery_postal_code' => $_GET['delivery_postal_code'] ?? '',
-                'pickup_city' => $_GET['pickup_city'] ?? '', 'delivery_city' => $_GET['delivery_city'] ?? ''
+        $state = array_merge([
+            'started_at'    => time(),
+            'params'        => [
+                'route_type' => $_GET['route_type'] ?? '',
+                'distance'   => isset($_GET['distance']) ? (float)$_GET['distance'] : null,
+                'weight'     => isset($_GET['weight']) ? (int)$_GET['weight'] : null,
+                'ldm'        => isset($_GET['ldm']) ? (float)$_GET['ldm'] : null,
+                'email'      => $_GET['email'] ?? '',
+                'phone'      => $_GET['phone'] ?? '',
+                'prompt'     => $_GET['prompt'] ?? '',
+                'urgent'     => $_GET['urgent'] ?? '0',
+                'stackable'  => $_GET['stackable'] ?? '0',
+                'pickup_date' => $_GET['pickup_date'] ?? '',
+                'delivery_date' => $_GET['delivery_date'] ?? '',
+                'pickup_postal_code' => $_GET['pickup_postal_code'] ?? '',
+                'delivery_postal_code' => $_GET['delivery_postal_code'] ?? '',
+                'pickup_city' => $_GET['pickup_city'] ?? '',
+                'delivery_city' => $_GET['delivery_city'] ?? ''
             ],
-            'results' => [],
-            'finalized' => false,
+            'results'       => [],
+            'finalized'     => false,
             'final_vehicle' => null,
-            'mail_status' => null
-        ];
+            'mail_status'   => null
+        ], $state);
+        $logger->log("BATCH init state rid=$requestId");
+    } else {
+        $logger->log("BATCH load state rid=$requestId");
     }
 
-    // policz dla tego kandydata i zapisz
+    // policz
     $calcType = token_to_calc_type($token);
     $result = calculateTransportPrice($calcType, $routeType, $distance, $weight, $ldm);
+    logj($logger, 'BATCH result', [
+        'rid'=>$requestId,'token'=>$token,
+        'price'=>$result['transport_price'] ?? null,
+        'price_m'=>$result['transport_price_with_margin'] ?? null
+    ]);
+
     $state['results'][$token] = $result;
     save_batch($requestId, $state);
 
-    // sprawdź kompletność (oczekujemy 3)
+    // komplet?
     $expected = ['bus','solo','naczepa'];
     $have = array_keys($state['results']);
     $missing = array_values(array_diff($expected, $have));
+    logj($logger, 'BATCH progress', ['rid'=>$requestId,'have'=>$have,'missing'=>$missing]);
 
     $finalPayload = null;
 
     if (!$state['finalized'] && empty($missing)) {
-        // mamy 3 → wybierz najtańszy, wyślij 1 mail
         $best = pick_cheapest_alt($state['results']);
         if ($best) {
             $state['finalized'] = true;
             $state['final_vehicle'] = $best['token'];
 
+            // zbuduj emailData ZANIM wezwiesz sendMail
+            $vehicleLabel = token_to_calc_type($best['token']); // "Bus" | "solo" | "naczepa"
+            $emailTo      = $state['params']['email'] ?? '';
+            $emailData    = build_email_data($state['params'], $best['result'] ?? null, $vehicleLabel);
+            $logger->log('MAIL attempt (batch) to=' . $emailTo . ' keys=' . implode(',', array_keys($emailData)));
+
             // dedup mail
             list($canSend, $lockMail, $sentMarker) = email_dedup_should_send($requestId, 600);
+            $logger->log("BATCH finalize rid=$requestId selected={$best['token']} canSend=" . ($canSend?'1':'0'));
+
             $mailStatus = 'Pominięto wysyłkę (duplikat request_id)';
-            if (filter_var($state['params']['email'], FILTER_VALIDATE_EMAIL) && $canSend) {
-                $emailData = [
-                    'prompt'        => $state['params']['prompt'],
-                    'distance'      => $state['params']['distance'],
-                    'ldm'           => $state['params']['ldm'],
-                    'weight'        => $state['params']['weight'],
-                    'route_type'    => $state['params']['route_type'],
-                    'vehicle_type'  => token_to_calc_type($best['token']),
-                    'transport_price_display'     => isset($best['result']['transport_price_with_margin']) ? number_format($best['result']['transport_price_with_margin'], 2, ',', ' ') . ' PLN' : '',
-                    'total_netto'                 => isset($best['result']['transport_price_with_margin']) ? number_format($best['result']['transport_price_with_margin'], 2, ',', ' ') . ' PLN' : '',
-                    'average_price_with_margin'   => isset($best['result']['average_price_with_margin']) ? number_format($best['result']['average_price_with_margin'], 2, ',', ' ') . ' PLN' : '',
-                    'transport_price_with_margin' => isset($best['result']['transport_price_with_margin']) ? number_format($best['result']['transport_price_with_margin'], 2, ',', ' ') . ' PLN' : '',
-                ];
-                $sendOk = sendMail($state['params']['email'], $state['params']['email'], 'Wstępna wycena transportu', $emailData);
-                if ($sendOk === true) { $mailStatus = 'Wysłano e-mail'; email_dedup_mark_sent($lockMail, $sentMarker); }
-                else { if (is_resource($lockMail)) { @flock($lockMail, LOCK_UN); @fclose($lockMail); } $mailStatus = '❌ Błąd wysyłania e-maila: ' . $sendOk; }
+            if ($canSend && filter_var($emailTo, FILTER_VALIDATE_EMAIL)) {
+                $sendOk = sendMail($emailTo, $emailTo, 'Wstępna wycena transportu', $emailData);
+                if ($sendOk === true) {
+                    $mailStatus = 'Wysłano e-mail';
+                    email_dedup_mark_sent($lockMail, $sentMarker);
+                } else {
+                    if (is_resource($lockMail)) { @flock($lockMail, LOCK_UN); @fclose($lockMail); }
+                    $mailStatus = '❌ Błąd wysyłania e-maila: ' . $sendOk;
+                }
+            } else {
+                if (!$canSend) $logger->log("BATCH mail dedup SKIP rid=$requestId");
+                if (!filter_var($emailTo, FILTER_VALIDATE_EMAIL)) $logger->log("BATCH invalid email rid=$requestId email=".$emailTo);
             }
             $state['mail_status'] = $mailStatus;
 
-            // Firmao – 1 wpis (po finalizacji)
+            // Firmao – 1 wpis po finalizacji
             $firmaoResult = createSalesOpportunityInFirmao([
                 'custom6'  => $state['params']['email'],
                 'custom8'  => $state['params']['pickup_postal_code'],
@@ -232,7 +300,7 @@ if (isset($_GET['batch']) && (int)$_GET['batch'] === 1) {
                 'custom14' => $state['params']['ldm'],
                 'custom12' => $state['params']['distance'],
                 'custom17' => $best['result']['transport_price_with_margin'] ?? '',
-                'custom16' => token_to_calc_type($best['token']),
+                'custom16' => $vehicleLabel,
                 'custom15' => $state['params']['route_type'],
                 'custom13' => $state['params']['weight'],
                 'custom9'  => $state['params']['pickup_city'],
@@ -241,10 +309,16 @@ if (isset($_GET['batch']) && (int)$_GET['batch'] === 1) {
             $state['firmao_result'] = $firmaoResult;
             save_batch($requestId, $state);
 
+            logj($logger, 'BATCH finalized', [
+                'rid'=>$requestId,'selected'=>$best['token'],'mail_status'=>$mailStatus,
+                'firmao_error'=>$firmaoResult['error'] ?? null
+            ]);
+
+            // pełna odpowiedź dla frontu
             $finalPayload = [
                 'status'                => 'finalized',
                 'request_id'            => $requestId,
-                'vehicle_type_selected' => token_to_calc_type($best['token']),
+                'vehicle_type_selected' => $vehicleLabel,
                 'transport_calculation' => $best['result'],
                 'alternatives'          => [
                     ['vehicle'=>'Bus',     'result'=>$state['results']['bus'] ?? []],
@@ -255,15 +329,16 @@ if (isset($_GET['batch']) && (int)$_GET['batch'] === 1) {
                 'firmao_creation'       => $firmaoResult,
                 'sales_opportunity_id'  => $firmaoResult['salesOpportunityId'] ?? null
             ];
+        } else {
+            $logger->log("BATCH finalize NO_PRICE rid=$requestId");
+            // (opcjonalnie: fallback no_price tutaj)
         }
     }
 
-    // zwróć odpowiedź
+
     @flock($fp, LOCK_UN); @fclose($fp);
 
-    if ($finalPayload) {
-        echo json_encode($finalPayload, JSON_UNESCAPED_UNICODE); exit;
-    }
+    if ($finalPayload) { echo json_encode($finalPayload, JSON_UNESCAPED_UNICODE); exit; }
 
     echo json_encode([
         'status'     => 'pending',
@@ -285,9 +360,20 @@ if (isset($_GET['vehicle_type'], $_GET['route_type'], $_GET['distance'], $_GET['
     $weight = (int)$_GET['weight'];
     $ldm = (float)$_GET['ldm'];
 
-    // Obliczenie ceny transportu
+
+    logj($logger, 'SINGLE start', [
+        'vt'=>$vehicleType,'rt'=>$routeType,'dist'=>$distance,'w'=>$weight,'ldm'=>$ldm,
+        'email'=>$_GET['email'] ?? ''
+    ]);
+
     $result = calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $ldm);
-    
+
+    logj($logger, 'SINGLE result', [
+        'price'=>$result['transport_price'] ?? null,
+        'price_m'=>$result['transport_price_with_margin'] ?? null,
+        'error'=>$result['error'] ?? null
+    ]);
+
     // Przygotowanie danych do szablonu e-maila (po wycenie)
     $emailData = [
         'prompt' => $_GET['prompt'] ?? '',
@@ -313,6 +399,7 @@ if (isset($_GET['vehicle_type'], $_GET['route_type'], $_GET['distance'], $_GET['
     } else {
         $mailStatus = 'Nieprawidłowy adres e-mail.';
     }
+    $logger->log('SINGLE mail_status=' . (is_bool($mailStatus) ? ($mailStatus ? 'OK' : 'FAIL') : $mailStatus));
 
     if (isset($result['error'])) {
         echo json_encode([
@@ -358,6 +445,8 @@ if (isset($_GET['vehicle_type'], $_GET['route_type'], $_GET['distance'], $_GET['
             'custom9' => $requestData['pickup_city'], // Miejscowość załadunku
             'custom11' => $requestData['delivery_city'] // Miejscowość rozładunku
         ]);
+
+        $logger->log('SINGLE firmao_status=' . (isset($firmaoResult['error']) ? ('ERR: '.$firmaoResult['error']) : 'OK'));
 
         // Przygotowanie odpowiedzi
         $response = [
