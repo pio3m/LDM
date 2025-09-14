@@ -426,8 +426,8 @@
                     <td class="header-content">
                         <div class="logo-container">
                             <div class="logo" role="img" aria-label="Sevium Logistics Logo">SV</div>
-                            <h1 class="main-title">Wstępna wycena Transportu</h1>
-                            <p class="subtitle">Sevium Logistics</p>
+                            <h1 class="main-title">Wstępna wycena Transportu nr {{firmao_id}} z dnia {{data}} </h1>
+                            <p class="subtitle">przygotowana dla {{user_email}} {{user_phone}}</p>
                         
                         </div>
                     </td>
@@ -438,7 +438,7 @@
         <main role="main">
             <!-- Transport Details Section -->
             <section class="section-divider" aria-labelledby="transport-details">
-                <div>Krótki tekst wprowadzający o tym, że to jest wstępna wycena, a nie oficjalna.
+                <div>Miejsce na stopkę kontaktową
                     </div>
                 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
                     <tr>
@@ -472,24 +472,32 @@
                         <td style="padding: 0;">
                             <table role="presentation" class="details-table" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
-                                    <th scope="row" class="label-cell">Dystans wyliczony</th>
-                                    <td class="value-cell">{{distance}}</td>
+                                    <th scope="row" class="label-cell">Rodzaj transportu</th>
+                                    <td class="value-cell">Drogowy: {{transport_type}}</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="label-cell">Rodzaj pojazdu</th>
+                                    <td class="value-cell">{{vehicle_type}} Możliwość załadunku: bok / tył </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row" class="label-cell">Wymiary ładunku</th>
+                                    <td class="value-cell">Waga {{weight}}</td>
                                 </tr>
                                 <tr>
                                     <th scope="row" class="label-cell">Wartość LDM</th>
                                     <td class="value-cell">{{ldm}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row" class="label-cell">Waga wyliczona</th>
-                                    <td class="value-cell">{{weight}}</td>
+                                    <th scope="row" class="label-cell">Towar gotowy do wysyłki</th>
+                                    <td class="value-cell">{{ready_to_ship}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row" class="label-cell">Typ trasy</th>
-                                    <td class="value-cell">{{route_type}}</td>
+                                    <th scope="row" class="label-cell">Kod pocztowy nadania</th>
+                                    <td class="value-cell"> kod nadania: {{pickup_postal_code}}</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row" class="label-cell">Typ pojazdu</th>
-                                    <td class="value-cell">{{vehicle_type}}</td>
+                                    <th scope="row" class="label-cell">Kod pocztowy odbioru</th>
+                                    <td class="value-cell">kod odbioru: {{delivery_postal_code}}</td>
                                 </tr>
                                 
                             </table>
@@ -510,12 +518,12 @@
                         <td style="padding: 0;">
                             <table role="presentation" class="cost-table" width="100%" cellpadding="0" cellspacing="0" border="0">
                                 <tr>
-                                    <th scope="row" class="cost-label">Cena transportu</th>
-                                    <td class="cost-value">{{transport_price_display}}</td>
+                                    <th scope="row" class="cost-label">Wyliczony dystans</th>
+                                    <td class="cost-value">{{distance}}</td>
                                 </tr>
                             
                                 <tr class="cost-total-row">
-                                    <th scope="row" class="cost-total-label">RAZEM (netto)</th>
+                                    <th scope="row" class="cost-total-label">Estymacja kosztu (netto)</th>
                                     <td class="cost-total-value">{{total_netto}}</td>
                                 </tr>
                                 
@@ -526,32 +534,6 @@
             </section>
 
 
-            <!-- Calculation Results Section -->
-            <section class="section-divider" aria-labelledby="calculation-results">
-                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
-                    <tr>
-                        <td class="section-header">
-                            <h2 id="calculation-results" class="section-title">Wyniki Kalkulacji</h2>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="padding: 0;">
-                            <table role="presentation" class="details-table" width="100%" cellpadding="0" cellspacing="0" border="0">
-                                <tr>
-                                    <th scope="row" class="label-cell">Koszt za kilometr dla podanych parametrów</th>
-                
-                                    <td class="value-cell">{{average_price_with_margin}}</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row" class="label-cell">Łączna cena transportu</th>
-                                    <td class="value-cell">{{transport_price_with_margin}}</td>
-                                </tr>
-                                
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-            </section>
         </main>
 
    

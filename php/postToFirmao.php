@@ -142,7 +142,7 @@ function sendTransportRequestToApi($requestData) {
         'custom6' => $requestData['email'] ?? '', // Adres e-mail
         'custom8' => $requestData['pickup_postal_code'] ?? '', // Kod pocztowy załadunku
         'custom10' => $requestData['delivery_postal_code'] ?? '', // Kod pocztowy rozładunku
-        'custom5' => $requestData['prompt'] ?? '', // Prompt
+        'custom5' => ($requestData['prompt'] ?? '') . ($requestData['ready_to_ship'] ? ' Czy gotowy do transportu - ' . $requestData['ready_to_ship'] : ''),
         'custom7' => $requestData['phone'] ?? '', // Numer telefonu
         'custom18' => $response['transport_price'] ?? '', // Obliczona wycena bez marży
         'custom14' => $requestData['ldm'] ?? '', // Obliczone LDM

@@ -3,11 +3,11 @@
 function fetchOffersFromApi() {
     // Obliczanie daty sprzed 90 dni
     $date = new DateTime();
-    $date->modify('-90 days');
+    $date->modify('-1 days');
     $baseDate = $date->format('Y-m-d\TH:i:s\Z');
     
     $usr = base64_encode("sevium.api@firmao.pl:5b57038a278e4dbd");
-    $url = "https://system.firmao.pl/sevium/svc/v1/offers?creationDate(gt)=" . $baseDate . "&limit=3&sort=creationDate&dir=DESC&mode(eq)=purchase";
+    $url = "https://system.firmao.pl/sevium/svc/v1/offers?creationDate(gt)=" . $baseDate . "&limit100=&sort=creationDate&dir=DESC&mode(eq)=purchase";
     $curl = curl_init($url);
     curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "GET");
     curl_setopt($curl, CURLOPT_HEADER, false);
@@ -72,6 +72,7 @@ function fetchTransactionEntriesFromApi($ids) {
                 $custom4 = isset($entry['customFields']['custom4']) ? $entry['customFields']['custom4'] : null;
                 $custom5 = isset($entry['offer']['customFields']['custom5']) ? $entry['offer']['customFields']['custom5'] : null;
                 $custom6 = isset($entry['customFields']['custom6']) ? $entry['customFields']['custom6'] : null;
+                
                 $customValues[$id][] = [
                     'custom2' => $custom2,
                     'custom4' => $custom4,
@@ -83,7 +84,7 @@ function fetchTransactionEntriesFromApi($ids) {
             }
         }
     }
-    
+
     return $customValues;
 }
 
@@ -113,12 +114,14 @@ function extractDataFromJson() {
 function combineOfferAndTransactionData() {
     $offersData = extractDataFromJson();
  
- 
     $transactionsData = fetchTransactionEntriesFromApi($offersData);
 
- 
     $combinedData = [];
     foreach ($offersData as $id => $offer) {
+        // Sprawdzenie czy custom5 ma jedną z dozwolonych wartości
+        if (!in_array($offer['custom5'], ['Bus', 'Naczepa', 'Solówka'])) {
+            continue; // Pomijamy oferty z nieprawidłową wartością custom5
+        }
     
         $postalCodes = array_column($transactionsData[$id], 'custom4');
         $addresses = array_column($transactionsData[$id], 'custom2');

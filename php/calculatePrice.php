@@ -155,7 +155,7 @@ function calculateTransportPrice($vehicleType, $routeType, $distance, $weight, $
         'average_price' => round($averagePrice, 2),
         'average_price_with_margin' => round($averagePriceWithMargin, 2),
         'transport_price' => round($transportPrice, 2),
-        'transport_price_with_margin' => round($transportPriceWithMargin, 2)
+        'transport_price_with_margin' => ceil($transportPriceWithMargin / 25) * 25
     ];
 }
 
