@@ -1,0 +1,172 @@
+id,offer_id,creation_date,address1,postal_code1,address2,postal_code2,price,distance,transport_type,route_type
+200,17591,2025-09-12,"PL 31-983 Kraków, Dip ul. Cementowa 5","PL 31-983","PL 41-909 Bytom, ul. Szyby Rycerskie 1, Kontakt: 510-260-880","PL 41-909",350.00,113.07,Bus,Krajowy
+201,17587,2025-09-12,"ICE-Trade Production  Ul. Piaskowa 19, 14-200 Iława","PL 14-200","Huta Stalowa Wola ul. Gen. T. Kasprzyckiego 8, 37-450 Stalowa Wola","PL 37-450",500.00,540.89,Bus,Krajowy
+202,17584,2025-09-12,"JYSK Syców, Smart Park, Kolejowa 20B, 56-500 Syców","PL 56-500","ul. Jelenia 92, 83-123 Piaseczno","PL 83-123",1000.00,,Bus,Krajowy
+203,17583,2025-09-12,"DABROwent, Aleksandra Krzywca 9, 85-862 Bydgoszcz","PL 85-004","WENTIK Sp. z o.o. Toruńska 85, 86-050 Solec Kujawski","PL 57-300",1100.00,400.55,Bus,Krajowy
+204,17580,2025-09-12,"7SUN 41-253 Czeladź, ul. Wiejska 49 (budynek nr 3)","PL 40-002","""Kartoffel Stahl Herr Jochen Stahl Lise-Meitner-Weg 1 74382 Neckarwestheim""","DE 74382",3623.21,925.66,Naczepa,Eksport
+205,17574,2025-09-12,"PL 59-160 Radwanice, Park Miejski, tel. 506 568 985","PL 59-160","PL 61-357 Poznań, Dip ul. Sarbinowska 2, tel. 790 273 227","PL 61-357",400.00,206.07,Bus,Krajowy
+206,17573,2025-09-12,"""Ogrodowa 2 Wola Mrokowska kontakt na zaladunek  +48 579 169 263  Jacek""","PL 05-090","DE 61169 Friedberg (Hessen)DZF International GmbH E-Commerce - B359 Tor 3， Georgenhäuser Str. 164409 Hessen ：Messel ：Germany ：015771036399","DE 61169",4899.46,,Naczepa,Eksport
+207,17570,2025-09-12,"Galbet Boleszyn 76, 13-324 Grodziczno","PL 13-324","ul. Dworcowa 34, 64-840 Budzyń tel.669 672 512","PL 64-840",1500.00,263.38,Naczepa,Krajowy
+208,17569,2025-09-12,"PL 31-983 Kraków, Dip ul. Cementowa 5, kontakt: tel. 790 273 228","PL 31-983","PL 47-100 Strzelce Opolskie, ul. Azaliowa, Kontakt:  Tomek  662-954-177/722-273-267","PL 47-100",600.00,171.53,Bus,Krajowy
+209,17567,2025-09-11,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"CZ, 789 53 Mohelnice ( Szczegóły w dokumencie przewozowym )","CZ, 78953",4047.38,,Naczepa,Eksport
+210,17564,2025-09-11,"PL 34-382 Wieprz,  ul.Przemysłowa,  Kontakt: 609479500","PL 34-382","PL 31-983 Kraków, Dip, ul. Cementowa 5, Kontakt: Artur 722273267","PL 31-983",600.00,104.37,Solówka,Krajowy
+211,17563,2025-09-11,"INVICTA ul. Parkowa 23D, 86-300 Grudziądz","PL 86-300","HYDROMEL ul Wyzwolenia 14, 41-103 Siemianowice Śląskie","PL 41-103",1850.00,408.96,Naczepa,Krajowy
+212,17561,2025-09-11,"Unieck 61, 09-136 Unieck",09-136,"PKZ CERAMIKA, 26-800 Białobrzegi ul. Kościelna 108",26-800,700.00,180.43,Naczepa,Krajowy
+213,17560,2025-09-11,"TERG S.A. ul. Za Dworcem 1D, 77-400 Złotów","PL 77-400","FLT Grupa ul. Wrocławska 1W, 51-361 Wilczyce","PL 51-361",1600.00,314.55,Naczepa,Krajowy
+214,17557,2025-09-11,"""Super-Duo GmbH Clausenstrasse 39C/Halle 10 Zufahrt über Schwesterstrasse 42285 Wuppertal 015202951367 Bo Dong 9:00--17:00""","DE 42285","OPMET BEST SRL Str. Negoiu Nr. 1,Fagaras 505200 Romania Marius Lupu ‪+40742240858",RO505200,5538.52,1819.26,Naczepa,Kabotaż
+215,17556,2025-09-11,"""Super-Duo GmbH Clausenstrasse 39C/Halle 10 Zufahrt über Schwesterstrasse 42285 Wuppertal 015202951367 Bo Dong 9:00--17:00""","DE 42285","OPMET BEST SRL Str. Negoiu Nr. 1,Fagaras 505200 Romania Marius Lupu ‪+40742240858",RO505200,4473.42,1819.26,Naczepa,Kabotaż
+216,17554,2025-09-11,"ESE ul. Łazy 20, brama 24, 43-170 Łaziska Górne","PL 43-170","Szkoła Podstawowa im. J. Wieczorka, DK7 6, 09-142 Szczytno tel.513 154 650","PL 09-142",400.00,393.56,Bus,Krajowy
+217,17553,2025-09-11,"PL 31-983 Kraków, Dip, ul. Cementowa 5,  Kontakt Artur, tel. 722273267","PL 31-983","PL 43-518 Ligota, Wapienicka(przy boisku),  Kontakt: Grzegorz, tel. 535880271","PL 43-518",350.00,137.95,Bus,Krajowy
+218,17551,2025-09-11,"Dabrowent, Aleksandra Krzywca 9, 85-862 Bydgoszcz","PL 85-004","PL 66-200 Świebodzin ( Szczegóły w dokumencie )","PL 66-200",1100.00,239.98,Solówka,Krajowy
+219,17549,2025-09-11,"Ferro Wings Sp. z o. o. - Magazyn Ul. Osadnicza 35 65-785 Zielona Góra","PL 65-001","Szkoła Podstawowa w Radowie Małym DW147 33, 72-314 Radowo Małe","PL 72-314",1550.00,,Solówka,Krajowy
+220,17546,2025-09-11,"Peikko Slovakia Kráľová nad Váhom 660, 925 91 Kráľová nad Váhom, Słowacja","SK 92591","ul. Biznesowa 9,  35-213 Rzeszów, Tel: 661 393 784","PL 35-001",639.06,565.06,Bus,Import
+221,17544,2025-09-11,"Cezar Palety, Szczytno 12-100 z ul. Ostrołęckiej 1","PL 12-100","EKONIP, Magazyn FIEGE III ul. Wiejska 2 96-320 Mszczonów","PL 96-320",1200.00,239.25,Naczepa,Krajowy
+222,17542,2025-09-11,"PL 63-940 Bojanowo, KK Service, Golina Wielka 18 B","PL 63-940","PL 58-160 Świebodzice, Ciernie 131G, tel. 600 397 232  Grzegorz Szmidla","PL 58-160",500.00,152.03,Bus,Krajowy
+223,17540,2025-09-11,"DTA Magazyn - Gdańsk  Adres: Kontenerowa 21, 80-601 Gdańsk",80-601,"Frankfurt nad Odrą/Słubice adres dośle",DE,5500.00,,Naczepa,Krajowy
+224,17539,2025-09-11,"FINAL, MAGAZYN 3, ul. Lubliniecka 35, 42-284 Herby","PL 42-284","PL, 42-400 Zawiercie ( Szczegóły w dokumencie )","PL 25-002",950.00,153.89,Solówka,Krajowy
+225,17537,2025-09-11,"PL 05-506 Wilcza Góra, Logiss ul. Żwirowa 18","PL 05-506","PL 00-992 Warszawa, Kimlog ul. Jagiellońska 88, hala 30","PL 00-992",550.00,36.75,Naczepa,Krajowy
+226,17535,2025-09-11,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL ul. Radzymińska 116, 03‑574 Warszawa","PL 03-574",2000.00,344.85,Naczepa,Krajowy
+227,17534,2025-09-11,"TERG S.A. ul. Za Dworcem 1D, 77-400 Złotów","PL 77-400","FLT Grupa ul. Wrocławska 1W, 51-361 Wilczyce","PL 51-361",1300.00,314.55,Solówka,Krajowy
+228,17531,2025-09-11,"Fabryka Substratu, Przy Tamie, 55-081 Mietków","PL 55-081","ul. Księdza Ludwika Bojarskiego, 41-503 Chorzów","PL 41-500",1000.00,210.95,Naczepa,Krajowy
+229,17527,2025-09-10,"""Odin Warehousing & Logistics B.V.  Sjelikowstraat 9 GPS: 51.932515, 4.025370 3199 KT Maasvlakte""","NL 3199","""Solarcomplex AG Veit in Breiten 6 78589 Dürbheim Germany""","DE 78589",6168.30,,Naczepa,Kabotaż
+230,17526,2025-09-10,"Dabrowent, Aleksandra Krzywca 9, 85-862 Bydgoszcz",85-862,"97-400 Bełchatów  Ul. Stanisława Staszica 20, Michał Rebzda, tel : 501690405",97-400,1250.00,269.88,Naczepa,Krajowy
+231,17524,2025-09-10,"Galbet Boleszyn 76, 13-324 Grodziczno","PL 13-324","ul. Dworcowa 34, 64-840 Budzyń tel.669 672 512","PL 64-840",1500.00,263.38,Naczepa,Krajowy
+232,17522,2025-09-10,"Prodoo ul. Wodociągowa 1a, 46-022 Zawada","PL 46-022","KM Okno Borowa 171, 39-215","PL 39-215",900.00,325.83,Solówka,Krajowy
+233,17521,2025-09-10,"SMĘTEK, Barska 12, 87-800 Włocławek",87-800,"Piotrków Trybunalski ( Szczegóły w dok. transportowych )",64-514,2000.00,231.75,Naczepa,Krajowy
+234,17518,2025-09-10,"KA-NE FAKTORIA PUDEŁKA, 98-100 Łask, Orchów 178","PL 98-100","OATBE, Pozowice 25, 32-051 Wielkie Drogi","PL 32-051",500.00,,Bus,Krajowy
+235,17516,2025-09-10,"Inter-Box, ul. Warszawska 89, 26-660 Jedlińsk",26-660,"05-660 Warka ( szczegóły w dokumencie przewozowym )",05-660,600.00,46.90,Naczepa,Krajowy
+236,17514,2025-09-10,"Thermal-Tech Sp. z o.o.   42-271 Częstochowa, ulica Ekonomiczna 5","PL 42-271","PEC Suwałki ,Przemysłowa 4, 16-400 Suwałki","PL 16-400",1600.00,532.97,Bus,Krajowy
+237,17513,2025-09-10,"Stark, Grodziska 22, 05-830 Stara Wieś",05-830,"Morawica 32-084, ""U Jędrusia""",32-084,1250.00,293.58,Naczepa,Krajowy
+238,17512,2025-09-10,"""Toys for Fun GmbH  Lise-Meitner-Str. 8,22941 Bargteheide ""","DE 22941","Inwestycyjna 1, 55-040 Magnice (SHEIN Warehouse PNT-B)","PL 55-040",1488.90,,Bus,Import
+239,17511,2025-09-10,"""Toys for Fun GmbH  Lise-Meitner-Str. 8,22941 Bargteheide ""","DE 22941","Inwestycyjna 1, 55-040 Magnice (SHEIN Warehouse PNT-B)","PL 55-040",1488.90,,Bus,Import
+240,17510,2025-09-10,"RF MAH Sp. z o.o. Prawików 3, 56-100 Wołów",56-100,"Mondelez Norge Production AS ,Johan Throne Holsts plass 1,P.O. Box 6658 Rodeløkka, NO-0566 Oslo, Norge","NO 0566",1276.20,,Bus,Krajowy
+241,17506,2025-09-10,"Keltec-PL  Ul. Komunalna 4  37-403 Pysznica","PL 37-403","PLAC SKŁADOWY ROMGOS  87-162 Mierzynek  Ul. Leśna aleja 1","PL 87-162",1900.00,525.39,Solówka,Krajowy
+242,17505,2025-09-10,"HIH Logistics  Lelyweg 25, 4612 RB Bergen op Zoom GPS: 51.5085590,4.2701710 Please let the drivers find Poort 7. Opening hours:  8:00-16:00","NL 4264","""Sat Dragomiresti Deal, Comuna , Dragomiresti Vale, Strada Padurii nr. 26, CT PARK Bucharest, Cladirea Buch 14, unit C7, 077096, ILFOV   SORIN VORINDAN  ‪+40 727 257 287‬""","RO 077096",12123.90,,Naczepa,Kabotaż
+243,17501,2025-09-10,"ZIDA Lotnicza 6 PL, 80-297 Miszewo","PL 80-297","TADEUSZ KOBUS ""ELEKTA"" USŁUGI-HANDEL Adres 1 Maja PL, 11-300 Biskupiec","PL 11-300",1500.00,243.35,Naczepa,Krajowy
+244,17500,2025-09-10,"ZIDA Lotnicza 6 PL, 80-297 Miszewo","PL 80-297","TADEUSZ KOBUS ""ELEKTA"" USŁUGI-HANDEL Adres 1 Maja PL, 11-300 Biskupiec","PL 11-300",1600.00,243.35,Naczepa,Krajowy
+245,17497,2025-09-10,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"742 73 Veřovice, Czechy ( Szczegóły w dok. transportowych )","CZ 742 73",7019.10,167.32,Naczepa,Eksport
+246,17495,2025-09-09,"Inter-Box, ul. Warszawska 89, 26-660 Jedlińsk",26-660,"PL, 26-811 Wyśmierzyce ( Szczegóły w dokumencie przewozowym )",26-811,550.00,,Naczepa,Krajowy
+247,17491,2025-09-09,"Dabrowent, Aleksandra Krzywca 9, 85-862 Bydgoszcz",85-862,"Radom 26-601 ( Szczegóły w dok. transportowych )",26-601,700.00,392.02,Bus,Krajowy
+248,17490,2025-09-09,"SPIROCENT BEATA CENTKOWSKA, Szkolna, 86-022 Borówno",85-862,"Budowa restauracji Popeye’s Gorzów Wielkopolski  Ul. Jedwabnicza 2/4 – obok centrum handlowego BIG, 66-400 Gorzów Wielkopolski,Paweł Przybysz: 781 033 959",66-400,700.00,304.03,Bus,Krajowy
+249,17489,2025-09-09,"Recycling Południe Sp. z o.o. Rybnicka 155,  44-310 Radlin, PL","PL 44-310","FBSerwis Ruszczyn 100, 97-360 Kamieńsk, PL","PL 97-360",1100.00,186.85,Naczepa,Krajowy
+250,17485,2025-09-09,"MIKA SP. Z O.O.  Przędzalnicza 14, 43-300 Bielsko-Biała","PL 43-300","PL 39-220 Pilzno ( Szczegóły po załadunku )","PL 39-220",1100.00,231.10,Naczepa,Krajowy
+251,17484,2025-09-09,"Unieck 61, 09-136 Unieck",09-136,"PKZ CERAMIKA, 26-800 Białobrzegi ul. Kościelna 108",26-800,700.00,180.43,Naczepa,Krajowy
+252,17482,2025-09-09,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"Scaffolding Huragan Sp. z.o.o.  Starogardzka 4, Rywałd  Starogard Gdański, Polska  PL 83-200",83-200,900.00,480.43,Naczepa,Eksport
+253,17481,2025-09-09,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"Frenštát pod Radhoštěm, Martinská čtvrť 1789, PSČ 74401","CZ 744-01",1019.62,328.30,Naczepa,Eksport
+254,17480,2025-09-09,"Chisage ul. Sokołowska 45D, 05-806 Sokołów","PL 05-806","ul. Tarnogórska 239, 44-105 Gliwice","PL 44-105",400.00,284.63,Bus,Krajowy
+255,17476,2025-09-09,"Dabrowent, Aleksandra Krzywca 9, 85-862 Bydgoszcz",85-862,"Leroy Merlin Kępno, ul. Rozwojowa, 63-600 Kępno,",63-600,300.00,362.00,Bus,Krajowy
+256,17474,2025-09-09,"Baza ELFEKO S.A., Parnowo 1, 76-039 Parnowo","PL 75-001","Energa Logistyka Sp. z o.o.  Magazyn  ul. Krzywoustego 34 A, 84-300 Lębork","PL 84-300",600.00,119.67,Solówka,Krajowy
+257,17472,2025-09-09,"FOX Global Logistics B.V. Boyneweg 5 3197 LK Botlek Rotterdam The Netherlands",nl,"Röhlig SUUS Holubice 551 Holubice, 683 51 Czech Republic",e,8071.96,1150.09,Naczepa,Kabotaż
+258,17470,2025-09-09,"FINAL, MAGAZYN 3, ul. Lubliniecka 35, 42-284 Herby",42-284,"46-300 Olesno ( Szczegóły w dok. transportowych )",46-300,1300.00,46.62,Naczepa,Krajowy
+259,17467,2025-09-09,"PL 96-515 Gmina Teresin, Orbico, Gaj 1","PL 96-515","PL 84-208 Dobrzewino, Energy Storage Technologies","PL 84-208",1700.00,411.46,Bus,Krajowy
+260,17466,2025-09-09,"AMS Meble Wola Batorska 962, 32-007 Zabierzów Bocheński","PL 32-005","ul. św Barbary 34, 42-200 Częstochowa tel.605 265 127","PL 42-202",500.00,172.19,Bus,Krajowy
+261,17464,2025-09-09,"PRE BIEL PRO, Piekary 363, 32-060 Liszki k/Krakowa, Poland","PL 32-060","OIL DYNAMICS  PFAELZER RING 25-29  68766 HOCKENHEIM GERMANY","DE 68766",2549.04,1032.49,Bus,Eksport
+262,17463,2025-09-09,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"Braszów RO 500001 ( Szczegóły w dok. transportowych )","RO 500001",4460.82,1310.53,Naczepa,Eksport
+263,17460,2025-09-09,"Jamalex Sp. z o.o. Przemysłowa 7, 64-130 Rydzyna","PL 64-130","PL 83-331 Widlino, https://maps.app.goo.gl/Z6r3skw1Dx2Nhtkw5  trasa S7 ok 20km od Gdańska","PL 83-331",1800.00,414.86,Naczepa,Krajowy
+264,17458,2025-09-09,"FLT Grupa ul. Wrocławska 1W, 51-361 Wilczyce","PL 51-361","ul. ks. Antoniego Siudy 11, 34-436 Maniowy","PL 34-436",1200.00,376.22,Solówka,Krajowy
+265,17457,2025-09-09,"PHU STRZECHA Krzysztof Mazur ul. Milowicka 1A 40-312 Katowice","PL 40-002","CZ 10000 Praga - 50.1185717N, 14.6024862E https://mapy.com/s/rakapenugu Metrostav d11","CZ 10000",3058.85,,Naczepa,Eksport
+266,17456,2025-09-09,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL ul. M.Curie Skłodowskiej 11, 37‑300 Leżajsk","PL 37-300",2800.00,631.70,Naczepa,Krajowy
+267,17452,2025-09-09,"PL 31-983 Kraków, Dip, ul. Cementowa 5, tel. Tel. 790273228","PL 31-983","PL 26-200 Końskie, OSiR, ul Olimpijska, Tel. 605034392","PL 26-200",900.00,157.27,Solówka,Krajowy
+268,17451,2025-09-09,"Miejski Zakład Wodociągów i Kanalizacji ul. Energetyczna 11, 62-600 Koło","PL 62-600","Stolno 21, 86-212 Stolno tel.601 682 215","PL 86-212",1100.00,153.12,Naczepa,Krajowy
+269,17448,2025-09-09,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"SK 91701 Trnava ( Szczegóły w dok. transportowych )","SK 91701",3186.30,,Naczepa,Eksport
+270,17447,2025-09-09,"7SUN 41-253 Czeladź, ul. Wiejska 49 (budynek nr 3)","PL 40-002","Velke Chlievany 67, 95701 Banovce nad Bebravou  ,","SK 95701",1911.78,279.65,Solówka,Eksport
+271,17444,2025-09-09,"PRE BIEL PRO, Piekary 363, 32-060 Liszki k/Krakowa, Poland","PL 32-060","INNOTECH  09-400 Płock  Ul. Kilińskiego 12A","PL 09-400",600.00,,Bus,Krajowy
+272,17441,2025-09-09,"FINAL, MAGAZYN 3, ul. Lubliniecka 35, 42-284 Herby",42-284,"Cekanowo, 09-472 , ( Szczegóły w dok. transportowych )",09-472,2850.00,,Naczepa,Eksport
+273,17438,2025-09-09,"Access World Netherlands B.V. Tradeboulevard 1 NL - 4761 RL Moerdijk",NL4761RL,"Romania Intrarea Mangaliei 78a, 900111 Constanta",RO900111,14019.72,2439.46,Naczepa,Kabotaż
+274,17436,2025-09-09,"Logwise Voltaweg 41A 3225 MA Hellevoetsluis The Netherlands","NL 3225","MikMa Energi  Lansen 15 9230 Svenstrup","DK 9230",6669.99,,Naczepa,Kabotaż
+275,17433,2025-09-08,"FABET Gorańska 17, 62-561 Ślesin tel.509 860 327","PL 62-561","FLOW B1 ACGROUP, ZA SZLABANEM NA KONCU ULICY TARGOWA 2, PL 90-022 ŁÓDŹ","PL 90-002",1010.00,132.73,Solówka,Krajowy
+276,17431,2025-09-08,"KK Service, Golina Wielka 18 B, 63-940 Bojanowo","PL 63-940","Świnoujście, adres wg dokumentów","PL 72-600",1800.00,,Solówka,Krajowy
+277,17430,2025-09-08,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"Katharina Beyer  Schreiberhauer Str. 6  Schwalmstadt, DE 34613","DE 34613",2336.18,679.78,Solówka,Eksport
+278,17426,2025-09-08,"C&J International Trading B.V. buitendijks 65, 3356LX Papendrecht ","NL 3356LX","Dingbo ul. Urocza 6, 05-552 Stefanowo","PL 05-552",6371.40,,Naczepa,Import
+279,17424,2025-09-08,"Składowa 19, 90-701 Teolin,","PL 90-701","ul. Biskupa Albina Małysiaka 8, 30-389 Kraków","PL 30-389",800.00,283.62,Solówka,Krajowy
+280,17422,2025-09-08,"Prodoo ul. Wodociągowa 1a, 46-022 Zawada","PL 46-022","Monolit Strzelnicza 12, 18-300 Zambrów","PL 18-300",1600.00,,Solówka,Krajowy
+281,17420,2025-09-08,"RF MAH Sp. z o.o. Prawików 3, 56-100 Wołów",56-100,"Zakłady Mechaniczne” Bumar-Łabędy”S.A. 44-109 Gliwice ul. Mechaników 9, Tadeusz Zdobylak tel. 509-361-423 ,32-734-66-62",44-109,500.00,,Bus,Krajowy
+282,17417,2025-09-08,"Prodoo ul. Wodociągowa 1a, 46-022 Zawada","PL 46-022","ROKA ul Londzina 31, 43-382 Bielsko-Biała","PL 43-382",1000.00,,Naczepa,Krajowy
+283,17413,2025-09-08,"PL 31-983 Kraków, DIP, ul. Cementowa 5, tel. 790 273 228","PL 31-983","PL 47-100 Strzelce Opolskie, ul. Azaliowa, Kontakt:  Tomek  662-954-177/722-273-267","PL 47-100",650.00,,Bus,Krajowy
+284,17411,2025-09-08,"PGE Energia Ciepła S.A. Oddział Elektrociepłownia w Bydgoszczy,  Energetyczna 1, 85-950 Bydgoszcz","PL 85-010","Ecol, 44-207 Rybnik,  Podmiejska 87 F","PL 44-207",1900.00,442.37,Naczepa,Krajowy
+285,17410,2025-09-08,"PVO International B.V. Graafsebaan 139, 5248 NL Rosmalen, Holandia","nl 5248","Gd-Its Warehousing BV Heksekamp 7 5301 LX Zaltbommel","NL 5301",11468.52,,Naczepa,Kabotaż
+286,17409,2025-09-08,"RF MAH Sp. z o.o. Prawików 3, 56-100 Wołów",56-100,"Mars Wrigley ul. Obodrzycka 69, 61-249 Poznań, Mateusz Gryczka tel : 503 358 972",61-249,500.00,,Bus,Krajowy
+287,17406,2025-09-08,"Logwise Voltaweg 41A 3225 MA Hellevoetsluis The Netherlands","NL 3225","MikMa Energi  Lansen 15 9230 Svenstrup","DK 9230",6583.78,952.13,Naczepa,Kabotaż
+288,17405,2025-09-08,"KA-NE FAKTORIA PUDEŁKA, 98-100 Łask, Orchów 178","PL 98-100","Systemy Autobusowe, 05-090 Raszyn, ul. Słowikowskiego 81/B","PL 02-255",500.00,,Bus,Krajowy
+289,17404,2025-09-08,"REMDRUK Sp. z o.o., ul. Kopalniana 18C, 43-225 Wola, Rafał Mączka / kom 785-157-126",43-225,"RF MAH Sp. z o.o. Prawików 3, 56-100 Wołów",56-100,1200.00,,Solówka,Krajowy
+290,17401,2025-09-08,"KA-NE FAKTORIA PUDEŁKA, 98-100 Łask, Orchów 178","PL 98-100","BIG NATURE, ul. Warszawska 12A 05-152 Palmiry","PL 05-152",350.00,,Bus,Krajowy
+291,17400,2025-09-08,"BLACHO-BUD, Zielona 62, 42-445 Szczekociny",42-445,"METALEX, 55-220 MINKOWICE OŁAWSKIE ul. KOLEJOWA 1",55-220,1000.00,,Naczepa,Krajowy
+292,17396,2025-09-08,"""C&J International Trading BV Buitendijks 65, 3356LX Papendrecht ""","NL 2665","""""""Dębowa 6, 80-297 Barniewice inpost warehouse Rafał Sawicki – ‪+48 799 044 850   and Jarek Poniatowski – ‪+48 504 977 909""""""",80-297,5097.12,,Naczepa,Krajowy
+293,17395,2025-09-08,"""C&J International Trading BV Buitendijks 65, 3356LX Papendrecht ""","NL 2665","""""""Dębowa 6, 80-297 Barniewice inpost warehouse Rafał Sawicki – ‪+48 799 044 850   and Jarek Poniatowski – ‪+48 504 977 909""""""",80-297,5097.12,,Naczepa,Krajowy
+294,17394,2025-09-08,"""C&J International Trading BV Buitendijks 65, 3356LX Papendrecht ""","NL 2665","""""""Dębowa 6, 80-297 Barniewice inpost warehouse Rafał Sawicki – ‪+48 799 044 850   and Jarek Poniatowski – ‪+48 504 977 909""""""",80-297,5097.12,,Naczepa,Krajowy
+295,17393,2025-09-08,"""C&J International Trading BV Buitendijks 65, 3356LX Papendrecht ""","NL 2665","""""""Dębowa 6, 80-297 Barniewice inpost warehouse Rafał Sawicki – ‪+48 799 044 850   and Jarek Poniatowski – ‪+48 504 977 909""""""",80-297,5097.12,,Naczepa,Krajowy
+296,17390,2025-09-08,"Z.P.H. Crawtico Ul. Słowiańska 39, 32-447 Siepraw",32-447,"42327 Wuppertal ( Szczegóły w dok. transportowych )","DE 42327",5734.26,1113.87,Naczepa,Eksport
+297,17386,2025-09-08,"""BTS KRISTALWEG 1D, 3297 LN PUTTERSHOEK GPS: 51.814861, 4.555820 (Mon.-Fri., 07:30-16:00)""","NL 3297","Michaela Lemmer Im Hübelgarten 29 54453 Nittel-Köllig Mobile : 016097971846","DE 54453",1699.04,,Solówka,Kabotaż
+298,17385,2025-09-08,"Składowa 19, 90-701 Teolin,","PL 90-701","ul. Biskupa Albina Małysiaka 8, 30-389 Kraków","PL 30-389",800.00,283.62,Solówka,Krajowy
+299,17384,2025-09-08,"Dabrowent, Aleksandra Krzywca 9, 85-862 Bydgoszcz",85-862,"66-400 Gorzów Wielkopolski ( Szczegóły w dok. transportowych )",66-400,600.00,304.03,Bus,Krajowy
+300,17382,2025-09-05,"Lubelski Fornir Sp. z o.o. ul. Lwowska 31, 22-650 Łaszczów",22-650,"Art wood, ul.Grunwaldzka 51,14-100 Ostróda",14-100,1500.00,546.44,Naczepa,Krajowy
+301,17379,2025-09-05,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"Czech - Petřvald k. Karwiny, CZ 73541","CZ 73541",936.17,286.63,Bus,Eksport
+302,17376,2025-09-05,"Prodoo ul. Wodociągowa 1a, 46-022 Zawada","PL 45-001","KM Okno Borowa 171, 39-215","PL 39-215",700.00,319.30,Bus,Krajowy
+303,17373,2025-09-05,"ASAJ, Kazimierza Przerwy-Tetmajera 1, 08-110 Siedlce","PL 08-110","Baza ELFEKO S.A. Parnowo 1, 76-039 Parnowo, tel.: 600 805 629","PL 76-039",2300.00,631.00,Bus,Krajowy
+304,17370,2025-09-05,"Pruszyński Sp. z o.o. Sokołowska 32B 05-806 Sokołów","PL 05-806","Thermal-Tech Sp. z o.o. ul. Ekonomiczna 5 42-271 Częstochowa","PL 42-271",700.00,218.64,Bus,Krajowy
+305,17368,2025-09-05,"FR 51100 Reims ( szczegóły później )","FR 51100","Ul. Czarna 16  77-304 Rzeczenica, https://maps.app.goo.gl/iHSHhq5JjXUckao36","PL 77-304",5957.42,,Naczepa,Import
+306,17367,2025-09-05,"Stark, Grodziska 22, 05-830 Stara Wieś",05-830,"""U Jędrusia"" Sp. z o.o., Józefa Jedynaka 32, 32-020 Wieliczka",32-020,1250.00,287.57,Naczepa,Krajowy
+307,17364,2025-09-05,"SAW-TRAK  ul. Deszczowa 2A, 31-985 Kraków","PL 31-985","Taste Craft ul. Korczunkowa 20, 05-503 Głosków","PL 05-503",1500.00,274.54,Solówka,Krajowy
+308,17363,2025-09-05,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"Kümmersbruck, 92245, Niemcy ( Szczegóły w dok. transportowych )","DE 92245",6808.48,716.91,Naczepa,Eksport
+309,17360,2025-09-05,"""Buitendijks 65, 3356LX Papendrecht ""","NL 2665","Dębowa 6, 80-297 Barniewice",80-297,5106.36,,Naczepa,Krajowy
+310,17359,2025-09-05,"ZIDA, Skała 57-150 Gołostowice","PL 57-150","CZ 61900 Brno ( szczegóły w dokumencie przewozowym )","CZ 61900",2638.29,,Naczepa,Eksport
+311,17357,2025-09-05,"7SUN 41-253 Czeladź, ul. Wiejska 49 (budynek nr 3)",41-253,"Elektro Zanzinger GmbH Solarstraße 2 74585 Rot am See - Brettheim Uwe Zanzinger, Steffen Zanzinger Telefon +49 7958 / 92 69 144","DE 74585",5531.89,847.98,Naczepa,Eksport
+312,17355,2025-09-05,"FABET Gorańska 17, 62-561 Ślesin tel.509 860 327","PL 62-561","PL 60-542 Poznań, ul. Janickiego","PL 60-542",800.00,132.08,Naczepa,Krajowy
+313,17354,2025-09-05,"Laserion Sp. z o.o. - Boczna 6, 44-240 Żory",44-240,"Zaprom Spółka, ul. Tołcze 3D 18-106 Turośń Kościelna",18-106,1500.00,551.63,Solówka,Krajowy
+314,17350,2025-09-05,"MTJ Barnisław 44, 72-001 Kołbaskowo","PL 72-001","Fitness Zdrofit  ul. Syta 83, 02-993 Warszawa","PL 02-993",2200.00,568.59,Solówka,Krajowy
+315,17346,2025-09-04,"Katharina Beyer  Schreiberhauer Str. 6  Schwalmstadt 34613,  +49 172 268 5501","DE 34613","SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,1916.51,680.24,Naczepa,Import
+316,17345,2025-09-04,"Solexo, ul. Sienkiewicza 85, 34-300 Żywiec, tel :  889880222",34-300,"Mariusz Derek, Renice 37a, 74-300 Myślibórz,  tel 880294882",74-300,700.00,588.86,Bus,Krajowy
+317,17341,2025-09-04,"PGE Energia Ciepła S.A. Oddział Elektrociepłownia w Bydgoszczy,  Energetyczna 1, 85-950 Bydgoszcz","PL 85-010","Ecol, 44-207 Rybnik,  Podmiejska 87 F","PL 44-207",2100.00,442.37,Naczepa,Krajowy
+318,17340,2025-09-04,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"Krompachy, 053 42, Słowacja ( Szczegóły w dok. transportowych )","SK 053 42",1277.67,281.27,Naczepa,Eksport
+319,17338,2025-09-04,"Prawtech Sp. z o.o.,  ul. Garbarska 43,  32-340 Wolbrom",32-340,"Landzberg, 83-200 Starogard Gdański  ul. Gdańska 43",83-200,700.00,518.16,Bus,Krajowy
+320,17336,2025-09-04,"KK Service, Golina Wielka 18 B, 63-940 Bojanowo","PL 63-940","Świnoujście, adres wg dokumentów","PL 72-600",2000.00,430.51,Solówka,Krajowy
+321,17333,2025-09-04,"Katharina Beyer  Schreiberhauer Str. 6  Schwalmstadt 34613,  +49 172 268 5501","DE 34613","SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,1703.56,680.24,Naczepa,Import
+322,17332,2025-09-04,"Zakład produkcji Elementów Budowlanych ''ELWID"" Elżbieta Widuch  ul.Strefowa 16  39-442 Chmielów","PL 39-442","LANDOIA, ul. Marii Gajl 1 26-613 Radom","PL 26-613",600.00,132.11,Bus,Krajowy
+323,17330,2025-09-04,"Blejkan Ul. Skórzewska 35, 62-081 Wysogotowo","PL 62-081","Blejkan Construct SRL Braila, strada Piata Uzinei nr. 1, CP 810140 Braila (RO), tel. Ana-Maria Andrei +40 743 517 040Rr","RO 810001",1703.56,1476.29,Naczepa,Eksport
+324,17328,2025-09-04,"Unieck 61, 09-136 Unieck",09-136,"PKZ CERAMIKA, 26-800 Białobrzegi ul. Kościelna 108",26-800,700.00,180.43,Naczepa,Krajowy
+325,17327,2025-09-04,"ZIDA ul. Lotnicza, 80-297 Miszewo",80-297,"TADEUSZ KOBUS ""ELEKTA"" USŁUGI-HANDEL, 1 Maja PL, 11-300 Biskupiec",11-300,6500.00,,Naczepa,Krajowy
+326,17325,2025-09-04,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"273 24 Velvary ( Szczegóły w dok. transportowych )","CZ 273 24",1362.85,541.49,Naczepa,Eksport
+327,17323,2025-09-04,"Stark, Grodziska 22, 05-830 Stara Wieś",05-830,"Morawica 32-084, ""U Jędrusia""",32-084,1250.00,,Naczepa,Krajowy
+328,17322,2025-09-04,"PRAWTECH sp. z o.o., ul. Garbarska 43, 32-340 Wolbrom",32-340,"Prandelli Polska, 80-298 Gdańsk, ul. Budowlanych 40",80-298,1000.00,,Bus,Krajowy
+329,17320,2025-09-04,"Unterneuses IBC Lager Herbst Niederauer Str. 5 96250 Unterneuses Germany Opening hours: Mo-Fr, 08:30am-03:00pm","DE 96250","""Drumul Garii nr 37A, 075100 Otopeni, Lucian,‪+40761525589‬""","RO 550321",11073.14,1613.81,Naczepa,Kabotaż
+330,17318,2025-09-04,"PL 05-090 Puchały, Dip, ul. Centralna 47","PL 05-090","PL 95-040 Koluszki,  Budowlanych 10, Michał Białas T: 509948614","PL 95-040",300.00,118.22,Bus,Krajowy
+331,17317,2025-09-04,"""Savino Del Bene ul. Elbląska 110B Hala 5, 80-718 Gdańsk Daria         +48 517 593 991 """,80-718,"UltraPV Mateusz Maciaszczyk Mateusz Maciaszczyk Ul. Boczna 3 , 95-100 Zgierz Tel . 516412539",95-100,1650.00,,Naczepa,Krajowy
+332,17316,2025-09-04,"FINAL, MAGAZYN 3, ul. Lubliniecka 35, 42-284 Herby",42-284,"Slatiňany, 538 21 , ( Szczegóły w dok. transportowych )","CZ 538 21",4471.85,,Naczepa,Eksport
+333,17314,2025-09-04,"Raben Logistics Polska Centrala, Zbożowa 1, 62-023 Robakowo",62-023,"(lokal MrDIY) CH Turawa Park, ul. Dębowa 1, 46-022 Zawada, Piotr, tel. 570 270 917",46-022,650.00,303.28,Bus,Krajowy
+334,17312,2025-09-04,"Elektronika S.A. - Chłodnictwo i Klimatyzacja, Pucka 5, 81-036 Gdynia",81-036,"Nysa (lokal Woolworth) ul. Szlak Chrobrego 3/6, 48-300 Nysa, Paweł, tel. 791 257 559",48-300,1000.00,601.78,Bus,Krajowy
+335,17308,2025-09-04,"Galbet Boleszyn 76, 13-324 Grodziczno","PL 13-324","ul. Dworcowa 34, 64-840 Budzyń tel.669 672 512","PL 64-840",1450.00,263.38,Naczepa,Krajowy
+336,17307,2025-09-04,"Dabrowent, Aleksandra Krzywca 9, 85-862 Bydgoszcz",85-862,"AL. Grunwaldzka 103, Gdańska Przebudowa Szkoły, tel : 574276483",80-244,450.00,181.40,Bus,Krajowy
+337,17303,2025-09-04,"Krakowska 88, 50-427 Wrocław","PL 50-001","PHU STRZECHA Krzysztof Mazur ul. Milowicka 1A 40-312 Katowice","PL 40-002",1400.00,195.53,Naczepa,Krajowy
+338,17302,2025-09-04,"Prandelli Polska Sp. z o.o. 80-298 Gdańsk, ul. Budowlanych 40",80-298,"FIRMA ""BEHRENDT""- GRUPA SBS Salon Łazienek - Market Mrówka SZABDA 104 87-300 BRODNICA tel. kont. 604 100 540",87-300,350.00,185.05,Solówka,Krajowy
+339,17300,2025-09-04,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"69-108 Cybinka ( Szczegóły w dok. transportowych )",58-40069-108,700.00,,Solówka,Krajowy
+340,17299,2025-09-04,"RF MAH Sp. z o.o. Prawików 3, 56-100 Wołów",56-100,"Nestle Winiary ul. Łódzka 153, 62-800 Kalisz",62-800,850.00,164.39,Solówka,Krajowy
+341,17296,2025-09-04,"2kan ul.Rajdowa 10, 05-850 Konotopa","PL 05-850","Centrum Handlowe Forum ul. Lipowa 3, 44-100 Gliwice tel.576 846 182","PL 44-100",1400.00,320.31,Naczepa,Krajowy
+342,17295,2025-09-04,"JT Stal, ul. Szyb Walenty 100, 41-700 Ruda Śląska",41-700,"Spawstal Sp. z o.o., Szarych Szeregów 14, 63-000 Środa Wielkopolska, Bartosz Kofel tel : 505 981 539",63-000,900.00,388.41,Naczepa,Krajowy
+343,17293,2025-09-04,"RSTECHNOLOGY Adam Rachfał, Jagiełła 323, 37-203 Gniewczyna Łańcucka, Robert Głuszyk t tel.789 037 580",37-203,"RF MAH Sp. z o.o. Prawików 3, 56-100 Wołów",56-100,950.00,515.65,Bus,Krajowy
+344,17290,2025-09-03,"Galbet Boleszyn 76, 13-324 Grodziczno","PL 13-324","Ul. Dworcowa 34, 64-840 Budzyń","PL 64-840",1500.00,263.38,Naczepa,Krajowy
+345,17288,2025-09-03,"Raben Gniewomierz 181, 59-241 Legnickie Pole","PL 59-241","Lawendowa 3, 58-562 Zachełmie","PL 58-562",600.00,,Bus,Krajowy
+346,17286,2025-09-03,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL Wróblewskiego 4C, 24100 Puławy","PL 24-100",2200.00,481.62,Naczepa,Krajowy
+347,17284,2025-09-03,"Mucold ul. Katowicka 156, 43-450 Ustroń","PL 43-450","""ul. Jana Ciszewskiego 15, 02-777 Warszawa Tel.606 586 787 Dla firmy Chłodnictwo Wala na budowie""","PL 02-777",1500.00,375.44,Solówka,Krajowy
+348,17282,2025-09-03,"Redconst ul. 1 Maja 202, 44-348 Skrzyszów","PL 44-348","ul. Ogrodowa 31, 62-571 Konin","PL 62-500",1600.00,380.92,Solówka,Krajowy
+349,17281,2025-09-03,"SPIROCENT BEATA CENTKOWSKA, Szkolna, 86-022 Borówno",86-022,"CASTORAMA  GNIEZNO, ul. Poznańska, 62 - 200  GNIEZNO, Sebastian Kaczmarski 795859569",04-866,800.00,369.84,Bus,Krajowy
+350,17279,2025-09-03,"Savino Del Bene ul. Elbląska 110B Hala 5, 80-718 Gdańsk  Daria         +48 517 593 991","PL 80-001","Agrosolar 15-113 Białystok ""Ul. Władysława Andersa 38 Kontakt: 695-601-602","PL 15-002",2100.00,432.36,Naczepa,Krajowy
+351,17276,2025-09-03,"Logwise Voltaweg 41A 3225 MA Hellevoetsluis The Netherlands","NL 3225","MikMa Energi  Lansen 15 9230 Svenstrup","DK 9230",6397.65,952.13,Naczepa,Kabotaż
+352,17275,2025-09-03,"Jamalex Sp. z o.o. Przemysłowa 7, 64-130 Rydzyna","PL 64-130","PL 83-331 Widlino, https://maps.app.goo.gl/Z6r3skw1Dx2Nhtkw5  trasa S7 ok 20km od Gdańska","PL 83-331",1800.00,414.86,Naczepa,Krajowy
+353,17274,2025-09-03,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL Tarnogórska 139, 44‑102 Gliwice","PL 44-100",1500.00,,Solówka,Krajowy
+354,17273,2025-09-03,"RSTECHNOLOGY Adam Rachfał, Jagiełła 323, 37-203 Gniewczyna Łańcucka, Robert Głuszyk t tel.789 037 580",37-203,"WITPOL, Stodzew 54, 08-441 Stodzew, Damian Włodarczyk tel. 735 433 947",56-100,1450.00,,Naczepa,Krajowy
+355,17271,2025-09-03,"SLV Group: Cieśle 1G, 56-400 Oleśnica",56-400,"HR Radnička cesta 204, Zagreb","HR 1000",2559.06,954.98,Bus,Eksport
+356,17267,2025-09-03,"""Magazyn ATC Elbląska 120, 80-718 Gdańsk Daria         +48 517 593 991""","PL 80-001","CORPIG -&gt; ul. Konstantego Ciołkowskiego 157A, 15-545 Białystok","PL 15-002",2100.00,432.36,Naczepa,Krajowy
+357,17264,2025-09-03,"FINAL, MAGAZYN 3, ul. Lubliniecka 35, 42-284 Herby",42-284,"Grzegorzew, 62-640 ( Szczegóły w dok. transportowych )",62-640,2400.00,241.00,Naczepa,Krajowy
+358,17262,2025-09-03,"""Savino Del Bene ul. Elbląska 110B Hala 5, 80-718 Gdańsk Daria         +48 517 593 991 ""","PL 80-001","Ul. Przemysłowa 14, 35-105 Rzeszów 600 420 552 Elżbieta Oczoś""","PL 35-001",2500.00,765.49,Naczepa,Krajowy
+359,17261,2025-09-03,"PL 96-515 Gmina Teresin, Orbico, Gaj 1,","PL 96-515","RO 707255 Holboca, ORIGINALS Calea Cristesti Nr.79, 707255 Holboca","RO 707255",5757.89,1012.01,Naczepa,Eksport
+360,17260,2025-09-03,"""Magazyn ATC Elbląska 120, 80-718 Gdańsk Daria  +48 517 593 991 ""","PL 80-001","HYMON - Czysta 9, 33-100 Tarnów","PL 33-100",2450.00,673.87,Naczepa,Krajowy
+361,17258,2025-09-03,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL Prusicka 16, 55‑100 Trzebnica","PL 55-100",1600.00,,Solówka,Krajowy
+362,17257,2025-09-03,"""Magazyn ATC Elbląska 120, 80-718 Gdańsk Daria  +48 517 593 991 ""","PL 80-001","HYMON - Czysta 9, 33-100 Tarnów","PL 90-002",1500.00,332.48,Naczepa,Krajowy
+363,17255,2025-09-03,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"549 31 Hronov, Czechy ( Szczegóły w dok. transportowych )","CZ 549 31",1961.95,,Naczepa,Eksport
+364,17254,2025-09-03,"PL 61-249 Poznań, Dip, ul. Sarbinowska 2","PL 61-249","PL 83-021 Przejazdowo, Dip, ul. Kasztanowa 5 B","PL 83-021",300.00,313.60,Bus,Krajowy
+365,17251,2025-09-03,"PL 05-090 Puchały, Dip, ul. Centralna 47, kontakt: tel.790273253","PL 05-090","PL 21-002 Marysin, Dip, ul. Szarugi 120, kontakt: tel. 724863183","PL 21-002",1400.00,170.50,Solówka,Krajowy
+366,17250,2025-09-03,"Final S.A. ul. Koksownicza 9, 42-523 Dąbrowa Górnicza",42-523,"Popůvky, Czechy ( Szczegóły w dok. transportowych )","CZ 78345",4051.85,,Naczepa,Eksport
+367,17248,2025-09-03,"Caldo Wrocław ul. Jerzmanowska 19, 54-530 Wrocław",54-530,"Galeria Gwiezdna, ul. Gwiezdna 4, 59-220 Legnica, Kontakt: Krzysztof 533 018 696",59-220,270.00,78.31,Bus,Krajowy
+368,17244,2025-09-03,"Roko, Piotrów 77, 62-812 Jastrzębniki",62-812,"Gospodarstwo Mielewczyk , 83-304 Kobysewo , ul.Długa Ryga  51 A",43-229,1000.00,,Naczepa,Krajowy
+369,17241,2025-09-03,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL Unii Lubelskiej 77, 37-600 Lubaczów","PL 37-600",2500.00,718.08,Solówka,Krajowy
+370,17240,2025-09-02,"Magazyn Lidla Przemysłowa 2, 62-080 Jankowice (brama 9)","PL 62-080","LIDL Wróblewskiego 4C, 24‑100 Puławy","PL 24-100",2000.00,481.62,Solówka,Krajowy
